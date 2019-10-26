@@ -3,10 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 
 var surveysRouter = require('./routes/surveys');
 
 var app = express();
+
+require('dotenv').config();
+
+//db connection
+mongoose.connect(process.env.DB_CON)
+  .then(() => console.log('Connection to DB successful'))
+  .catch((err) => console.error(err));
 
 
 app.use(logger('dev'));
