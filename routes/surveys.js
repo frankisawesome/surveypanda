@@ -8,6 +8,82 @@ router.get('/', function(req, res, next) {
   res.send('Post or get some surveys here');
 });
 
+
+//Get survey results from today
+router.get('/music', (req, res) => {
+  Survey.find((err, surveys) => {
+    if (err) return console.error(err);
+    const data = [];
+    surveys.map((survey) => {
+      data.push(survey.music);
+    })
+    var num = 0
+    var divide = 0
+    data.map((score) => {
+      num += score
+      divide += 5
+    })
+    const result = num / divide;
+    res.json({
+      percentage: result
+    })
+  })
+})
+
+router.get('/stress', (req, res) => {
+  Survey.find((err, surveys) => {
+    if (err) return console.error(err);
+    const data = [];
+    surveys.map((survey) => {
+      data.push(survey.stress);
+    })
+    var num = 0
+    var divide = 0
+    data.map((score) => {
+      num += score
+      divide += 5
+    })
+    const result = num / divide;
+    res.json({
+      percentage: result
+    })
+  })
+})
+
+router.get('/cleanliness', (req, res) => {
+  Survey.find((err, surveys) => {
+    if (err) return console.error(err);
+    const data = [];
+    surveys.map((survey) => {
+      data.push(survey.cleanliness);
+    })
+    var num = 0
+    var divide = 0
+    data.map((score) => {
+      num += score
+      divide += 5
+    })
+    const result = num / divide;
+    res.json({
+      percentage: result
+    })
+  })
+})
+
+//get total number
+router.get('/total', (req, res)=> {
+  Survey.find((err, surveys) => {
+    if (err) return console.error(err);
+    var count = 0;
+    surveys.map((useless) => {
+      count ++;
+    })
+    res.json({
+      count: count
+    })
+  })
+})
+
 //Post route for new message creation
 router.post('/new', async (req, res) => {
   const post = new Survey ({
