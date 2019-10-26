@@ -10,6 +10,8 @@ var surveysRouter = require('./routes/surveys');
 var app = express();
 
 require('dotenv').config();
+const cors = require("cors")
+app.use(cors())
 
 //db connection
 mongoose.connect(process.env.DB_CON)
