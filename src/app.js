@@ -4,8 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+const helmet = require('helmet');
 
-var surveysRouter = require('./routes/surveys');
+var surveysRouter = require('./api/surveys');
 
 var app = express();
 
@@ -17,6 +18,7 @@ app.use(cors())
 mongoose.connect(process.env.DB_CON)
   .then(() => console.log('Connection to DB successful'))
   .catch((err) => console.error(err));
+
 
 
 app.use(logger('dev'));
@@ -40,7 +42,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;
