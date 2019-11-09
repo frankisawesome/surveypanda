@@ -21,11 +21,20 @@ router.get('/', (req, res) => {
     res.send('Company API')
 })
 
-router.post('/new', parseNew, async (req, res) => {
+router.post('/new', parseNew, async (req, res, next) => {
     const post = req.payload
 
-    post.save((err) => {
-        res.send(err ? err : post);
+    await post.save((err) => {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            let posted;
+            Company.find({name: req.payload.name}, function(err, docs) {
+                id = docs[0]._id
+                res.send(`Successfully created company ${req.payload.name}, the company ID is ${id}`)
+            })
+        }
     })
 })
 

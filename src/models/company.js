@@ -1,7 +1,10 @@
 var mongoose = require('mongoose')
 
 const Company = mongoose.Schema({
-    name: String,
+    name: { 
+        type:String,
+        unique:true
+    },
     industry: String,
     subscription: String,
     dateCreated: {
@@ -14,7 +17,10 @@ const Company = mongoose.Schema({
             type: String,
         }
     ],
-    lastUpdated: Date
+    lastUpdated: Date,
+    users: [
+        String
+    ]
 })
 
 module.exports = mongoose.model('Company', Company)
