@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Survey = require('../models/model');
+const Survey = require('../models/survey');
 
 
 /* GET users listing. */

@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 const helmet = require('helmet');
 
 var surveysRouter = require('./api/surveys');
+var companyRouter = require('./api/companyApi');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/surveys', surveysRouter);
+app.use('/company', companyRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
