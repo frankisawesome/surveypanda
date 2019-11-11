@@ -32,7 +32,8 @@ router.post('/new', parseNew, async (req, res, next) => {
             let posted;
             Company.find({name: req.payload.name}, function(err, docs) {
                 id = docs[0]._id
-                res.send(`Successfully created company ${req.payload.name}, the company ID is ${id}`)
+                res.status(201)
+                res.json({message: `Successfully created company in database`, success: true, id: id, name: req.payload.name})
             })
         }
     })
