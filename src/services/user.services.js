@@ -5,6 +5,7 @@ const User = require('../models/user')
 
 module.exports = {
     create,
+    authorise,
     authenticate
 }
 
@@ -15,11 +16,9 @@ async function create(userparams) {
             message: `User ${userparams.username} already exists`
         }
     }
-
     const user = new User(userparams)
 
     user.hash = bcrypt.hashSync(userparams.password, process.env.SALT)
-    
 
     await user.save()
 }
@@ -32,10 +31,53 @@ async function authenticate(userparams) {
             return jwt.sign({username: userparams.username, exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)}, process.env.PRIVATE_KEY)
         }
         else {
-            throw new Error('wrong password')
+            throw {
+                error: true,
+                message: 'Wrong password'
+            }
         }
     }
     else {
-        throw new Error('Username does not exist')
+        throw  {
+            error: true,
+            message: 'Username not found'
+        }
     }
+}
+
+//middleware function for authenticating a route
+function authorise(req, res, next) {
+    if (!req.header('Authorization')){
+        res.status(401);
+        res.json({
+            error: true,
+            message: 'Authorization failed - no header detected'
+          })
+    }
+
+    jwt.verify(req.header('Authorization'), process.env.PRIVATE_KEY, function(err, decoded) {
+        try{
+            if (err){
+                throw {
+                    error: true,
+                    message: 'Authorisation failed - invalid token'
+                }
+            }
+            else {
+                if (decoded.exp < Date.now()){
+                    next()
+                }
+                else {
+                    throw {
+                        error: true,
+                        message: 'Authorisation failed - expired token'
+                    }
+                }
+            }
+        }
+        catch(e){
+            res.status(401);
+            res.json(e);
+        }
+    });
 }
