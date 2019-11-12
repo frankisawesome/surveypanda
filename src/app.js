@@ -1,33 +1,45 @@
+//Packages import
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+const helmet = require('helmet');
+const cors = require("cors")
+const dotenv = require("dotenv")
 
-var surveysRouter = require('./routes/surveys');
+//Endpoint routers
+var surveysRouter = require('./controllers/survey.controller');
+var companyRouter = require('./controllers/company.controller');
+var userRouter = require('./controllers/user.controller')
 
+//App
 var app = express();
 
-require('dotenv').config();
-const cors = require("cors")
+//essentials
+app.use(helmet())
 app.use(cors())
-
-//db connection
-mongoose.connect(process.env.DB_CON)
-  .then(() => console.log('Connection to DB successful'))
-  .catch((err) => console.error(err));
-
-
+dotenv.config();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+//db connection
+mongoose.connect(process.env.DB_CON)
+  .then(() => console.log('Connection to DB successful'))
+  .catch((err) => console.log(err))
+
+//front end
+app.use(express.static('../reactpanda/build'));
+
+//api routes
 app.use('/surveys', surveysRouter);
+app.use('/company', companyRouter);
+app.use('/user', userRouter);
 
-// catch 404 and forward to error handler
+//catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -40,7 +52,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;
