@@ -27,7 +27,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //db connection
-mongoose.connect(process.env.DB_CON)
+mongoose.connect(process.env.DB_CON, {
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useNewUrlParser: true
+})
   .then(() => console.log('Connection to DB successful'))
   .catch((err) => console.log(err))
 
