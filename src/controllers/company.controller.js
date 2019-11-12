@@ -1,41 +1,28 @@
 var Router = require('express');
 var router = Router();
 const Company = require('../models/company')
+const companyServices = require('../services/company.services')
 
-function parseNew (req, res, next) {
-    const post = new Company({
-        name: req.body.name,
-        industry: req.body.industry,
-        subscription: req.body.subscription,
-        dateCreated: Date.now(),
-        questions: "default",
-        lastUpdated: Date.now()
-    })
+//API endpoints
+router.get('/', greet)
+router.post('/new', companyServices.parse, create);
 
-    req.payload = post;
 
-    next();
+//call backs
+function greet(req, res) {
+    res.send('Company API')
 }
 
-router.get('/', (req, res) => {
-    res.send('Company API')
-})
-
-router.post('/new', parseNew, async (req, res, next) => {
-    const post = req.payload
-
-    await post.save((err) => {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            Company.find({name: req.payload.name}, function(err, docs) {
-                id = docs[0]._id
-                res.status(201)
-                res.json({message: `Successfully created company in database`, success: true, id: id, name: req.payload.name})
-            })
-        }
+function create (req, res) {
+    companyServices.create(req.payload)
+    .then(() => {
+        res.status(201)
+        res.send(`Sucessfully created ${req.payload.name}`)
     })
-})
+    .catch((err) => {
+        res.status(400)
+        res.json(err)
+    })
+}
 
 module.exports = router;
