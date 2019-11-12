@@ -12,6 +12,7 @@ const dotenv = require("dotenv")
 //Endpoint routers
 var surveysRouter = require('./controllers/survey.controller');
 var companyRouter = require('./controllers/company.controller');
+var userRouter = require('./controllers/user.controller')
 
 //App
 var app = express();
@@ -36,6 +37,7 @@ app.use(express.static('../reactpanda/build'));
 //api routes
 app.use('/surveys', surveysRouter);
 app.use('/company', companyRouter);
+app.use('/user', userRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

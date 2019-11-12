@@ -13,7 +13,6 @@ const user = new Schema({
     },
     firstName: {
         type: String,
-        default: username
     },
     lastName: String,
     createdDate: {
