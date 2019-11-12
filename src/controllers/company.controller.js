@@ -1,6 +1,5 @@
 var Router = require('express');
 var router = Router();
-const Company = require('../models/company')
 const companyServices = require('../services/company.services')
 
 //API endpoints
@@ -8,7 +7,7 @@ router.get('/', greet)
 router.post('/new', companyServices.parse, create);
 
 
-//call backs
+//Controller functionss
 function greet(req, res) {
     res.send('Company API')
 }
