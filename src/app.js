@@ -10,8 +10,8 @@ const cors = require("cors")
 const dotenv = require("dotenv")
 
 //Endpoint routers
-var surveysRouter = require('./api/surveys');
-var companyRouter = require('./api/companyApi');
+var surveysRouter = require('./controllers/survey.controller');
+var companyRouter = require('./controllers/company.controller');
 
 //App
 var app = express();

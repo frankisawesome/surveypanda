@@ -29,7 +29,6 @@ router.post('/new', parseNew, async (req, res, next) => {
             res.send(err);
         }
         else {
-            let posted;
             Company.find({name: req.payload.name}, function(err, docs) {
                 id = docs[0]._id
                 res.status(201)
