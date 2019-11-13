@@ -9,6 +9,7 @@ module.exports = {
     authenticate
 }
 
+//business logic for creating new user in the database, hashing the password
 async function create(userparams) {
     if (await User.findOne({ username: userparams.username })) {
         throw {
@@ -23,12 +24,13 @@ async function create(userparams) {
     await user.save()
 }
 
+//authenticate new login request
 async function authenticate(userparams) {
     const user = await User.findOne({ username: userparams.username })
     if (user) {
-        if (bcrypt.compareSync(userparams.password, user.hash)){
+        if (bcrypt.compareSync(userparams.password, user.hash)) {
             //sign a token with username and 3 hour expiration as payload and private key from environmental variable
-            return jwt.sign({username: userparams.username, exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3)}, process.env.PRIVATE_KEY)
+            return await jwt.sign({ username: userparams.username, exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3) }, process.env.PRIVATE_KEY)
         }
         else {
             throw {
@@ -38,7 +40,7 @@ async function authenticate(userparams) {
         }
     }
     else {
-        throw  {
+        throw {
             error: true,
             message: 'Username not found'
         }
@@ -47,24 +49,24 @@ async function authenticate(userparams) {
 
 //middleware function for authenticating a route
 function authorise(req, res, next) {
-    if (!req.header('Authorization')){
+    if (!req.header('Authorization')) {
         res.status(401);
         res.json({
             error: true,
             message: 'Authorization failed - no header detected'
-          })
+        })
     }
 
-    jwt.verify(req.header('Authorization'), process.env.PRIVATE_KEY, function(err, decoded) {
-        try{
-            if (err){
+    jwt.verify(req.header('Authorization'), process.env.PRIVATE_KEY, function (err, decoded) {
+        try {
+            if (err) {
                 throw {
                     error: true,
                     message: 'Authorisation failed - invalid token'
                 }
             }
             else {
-                if (decoded.exp < Date.now()){
+                if (decoded.exp < Date.now()) {
                     next()
                 }
                 else {
@@ -75,7 +77,7 @@ function authorise(req, res, next) {
                 }
             }
         }
-        catch(e){
+        catch (e) {
             res.status(401);
             res.json(e);
         }

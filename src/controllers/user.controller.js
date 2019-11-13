@@ -13,6 +13,7 @@ function greet(req, res){
     res.send('User API')
 }
 
+//create new user
 function create(req, res){
     userService.create(req.body)
     .then(() => {
@@ -25,6 +26,7 @@ function create(req, res){
     })
 }
 
+//authenticate a login request with a JWT
 function authenticate(req, res){
     userService.authenticate(req.body)
     .then((token) => {
