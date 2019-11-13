@@ -13,8 +13,9 @@ const Company = mongoose.Schema({
     },
     questions: [
         {
-            question: String,
-            type: String,
+            question: { type:String, required:true },
+            answerType: { type:String, default: "numeric" }, //should be either numeric or text
+            measures: { type:String, default: ""} 
         }
     ],
     lastUpdated: Date,
