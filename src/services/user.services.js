@@ -6,7 +6,8 @@ const User = require('../models/user')
 module.exports = {
     create,
     authorise,
-    authenticate
+    authenticate,
+    employerAuthorise
 }
 
 //business logic for creating new user in the database, hashing the password
@@ -66,7 +67,7 @@ function authorise(req, res, next) {
                 }
             }
             else {
-                console.log(decoded)  
+                req.jwt = decoded
                 next();
             }
         }
@@ -75,4 +76,25 @@ function authorise(req, res, next) {
             res.json(e);
         }
     });
+}
+
+//middleware function for authenticating employer accounts
+function employerAuthorise (req, res, next){
+    if (!req.jwt){
+        res.status(401);
+        res.json({
+            error: 'Authorization failed',
+            message: 'Failed to verify token'
+        })
+    }
+    else if (req.jwt.group != 'employer'){
+        res.status(401);
+        res.json({
+            error: 'Authorization failed',
+            message: 'No employer privilege'
+        })
+    }
+    else {
+        next()
+    }
 }
