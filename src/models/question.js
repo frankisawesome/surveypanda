@@ -2,11 +2,11 @@ var mongoose = require('mongoose')
 
 const schema = mongoose.Schema({
     companyId: { type: String, required: true },
-    expiry: { type: Date, required: true },
+    date: { type: Date, required: true },
     text: { type: String, required: true },
-    results: [Number], //storing number answers, such as 1-5 scales
+    num_results: [Number], //storing number answers, such as 1-5 scales
     scale: Number, //records the scale the question results are in
-    answers: [String], //records text answers if applicable
+    text_results: [String], //records text answers if applicable
     measures: String //records what the question measures
 })
 

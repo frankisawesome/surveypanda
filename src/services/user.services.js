@@ -30,7 +30,7 @@ async function authenticate(userparams) {
     if (user) {
         if (bcrypt.compareSync(userparams.password, user.hash)) {
             //sign a token with username and 3 hour expiration as payload and private key from environmental variable
-            return jwt.sign({ username: userparams.username, exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3) }, process.env.PRIVATE_KEY)
+            return jwt.sign({ username: userparams.username, group: userparams.group }, process.env.PRIVATE_KEY)
         }
         else {
             throw {
@@ -57,24 +57,17 @@ function authorise(req, res, next) {
         })
     }
 
-    jwt.verify(req.header('Authorization'), process.env.PRIVATE_KEY, function (err, decoded) {
+    jwt.verify(req.header('Authorization'), process.env.PRIVATE_KEY, { maxAge:36000}, function (err, decoded) {
         try {
             if (err) {
                 throw {
-                    error: true,
-                    message: 'Authorisation failed - invalid token'
+                    error: err.name,
+                    message: err.message
                 }
             }
             else {
-                if (decoded.exp < Date.now()) {
-                    next()
-                }
-                else {
-                    throw {
-                        error: true,
-                        message: 'Authorisation failed - expired token'
-                    }
-                }
+                console.log(decoded)  
+                next();
             }
         }
         catch (e) {
