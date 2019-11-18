@@ -11,13 +11,19 @@ const Company = mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    questions: [
-        {
-            question: { type:String, required:true },
-            answerType: { type:String, default: "numeric" }, //should be either numeric or text
-            measures: { type:String, default: ""} 
-        }
-    ],
+    questions: {
+        type: [
+            {
+                text: String,
+                measures: String
+            }
+        ],
+        default: [
+            { text: "How did you find the shift overall?", measures: "Shift Sentiment"},
+            { text: "Did the shift have a good work load?", measures: "Workload Perception"},
+            { text: "Did you feel supported with your work during the shift?", measures: "Support Factor"},
+        ]
+    },
     lastUpdated: Date,
     users: [
         String

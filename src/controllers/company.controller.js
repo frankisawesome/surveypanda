@@ -4,7 +4,8 @@ const companyServices = require('../services/company.services')
 
 //API endpoints
 router.get('/', greet)
-router.post('/new', companyServices.parse, create);
+router.post('/new', companyServices.parse, create)
+router.get('/find', find)
 
 
 //Controller functionss
@@ -21,6 +22,17 @@ function create (req, res) {
     .catch((err) => {
         res.status(400)
         res.json(err)
+    })
+}
+
+function find(req, res) {
+    companyServices.find(req.body.name)
+    .then((company) => {
+        res.send(company)
+    })
+    .catch((err) => {
+        res.status(404)
+        res.send(err.message)
     })
 }
 

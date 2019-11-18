@@ -6,7 +6,8 @@ const userService = require('../services/user.services');
 router.get('/', greet)
 router.post('/new', create)
 router.post('/login', authenticate)
-router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('good'))
+//testing the authorise and emplyoer authorise middlewares
+router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
 
 //controller functions
 function greet(req, res){
