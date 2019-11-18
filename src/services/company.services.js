@@ -29,7 +29,8 @@ async function create(company) {
         throw `Company ${company.name} already exists`
     }
 
-    await company.save()
+    var query = company.save()
+    return query.exec()
 }
 
 //Find company by name
@@ -38,6 +39,17 @@ async function find(name) {
     return query.exec()
 }
 
+//Update arrays of question and measure
 async function updateQuestion(questions, measures, name) {
+    const payload = [];
+    questions.map((question, i) => {
+        qobj = {
+            text: question,
+            measures: measures[i]
+        }
+        payload.push(qobj)
+    })
+    var query = Company.findOneAndUpdate( {name: name} , { $set: { questions: payload}})
 
+    return query.exec()
 }
