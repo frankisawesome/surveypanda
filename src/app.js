@@ -36,7 +36,7 @@ mongoose.connect(process.env.DB_CON, {
   .catch((err) => console.log(err))
 
 //front end
-app.use(express.static('../reactpanda/build'));
+//app.use(express.static('../reactpanda/build'));
 
 //api routes
 app.use('/surveys', surveysRouter);
@@ -56,6 +56,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
+  res.send("Looks like you've hit a non existing route. Contact admin if you think this is a server side error")
 });
 
 module.exports = app;

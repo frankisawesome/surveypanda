@@ -4,8 +4,9 @@ const companyServices = require('../services/company.services')
 
 //API endpoints
 router.get('/', greet)
-router.post('/new', companyServices.parse, create)
 router.get('/find', find)
+
+router.post('/new', companyServices.parse, create)
 router.post('/update', update)
 
 
@@ -16,9 +17,9 @@ function greet(req, res) {
 
 function create (req, res) {
     companyServices.create(req.payload)
-    .then(() => {
+    .then((doc) => {
         res.status(201)
-        res.send(`Sucessfully created ${req.payload.name}`)
+        res.json({message: 'Successfully created new company', document: doc})
     })
     .catch((err) => {
         res.status(400)
@@ -39,9 +40,9 @@ function find(req, res) {
 
 function update(req, res) {
     companyServices.updateQuestion(req.body.questions, req.body.measures, req.body.name)
-    .then((mes) => {
+    .then((doc) => {
         res.status(202)
-        res.send('Update successful')
+        res.json({message: 'Update successful', document: doc})
     })
     .catch((err) => {
         res.status(404)
