@@ -1,4 +1,5 @@
 const Question = require('../models/question')
+const companyServices = require('../services/company.services')
 
 module.exports = {
     create,
@@ -10,6 +11,6 @@ function find(name){
     
 }
 
-function create(name){
+async function create(name){
 
 }
