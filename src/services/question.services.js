@@ -12,5 +12,16 @@ function find(name){
 }
 
 async function create(name){
+    //find the company document by name
+    let company;
+    companyServices.find(name)
+    .then((doc) => {company = doc})
+    .catch((err) => {
+        throw err;
+    })
 
+    const question = new Question({
+        companyName: company.name,
+        
+    })
 }
