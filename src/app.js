@@ -12,7 +12,8 @@ const dotenv = require("dotenv")
 //Endpoint routers
 var surveysRouter = require('./controllers/survey.controller');
 var companyRouter = require('./controllers/company.controller');
-var userRouter = require('./controllers/user.controller')
+var userRouter = require('./controllers/user.controller');
+var questionRouter = require('./controllers/questions.controller');
 
 //App
 var app = express();
@@ -42,6 +43,7 @@ mongoose.connect(process.env.DB_CON, {
 app.use('/surveys', surveysRouter);
 app.use('/company', companyRouter);
 app.use('/user', userRouter);
+app.use('/question', questionRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
