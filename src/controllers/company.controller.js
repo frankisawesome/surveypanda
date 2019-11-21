@@ -22,6 +22,7 @@ function create (req, res) {
         res.json({message: 'Successfully created new company', document: doc})
     })
     .catch((err) => {
+        console.log(err)
         res.status(400)
         res.json(err)
     })

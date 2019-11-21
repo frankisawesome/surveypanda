@@ -30,13 +30,13 @@ async function create(company) {
     }
 
     var query = company.save()
-    return query.exec()
+    return query
 }
 
 //Find company by name
 async function find(name) {
     var query = Company.find({ name: name })
-    return query.exec()
+    return query
 }
 
 //Update arrays of question and measure
@@ -51,5 +51,5 @@ async function updateQuestion(questions, measures, name) {
     })
     var query = Company.findOneAndUpdate( {name: name} , { $set: { questions: payload}})
 
-    return query.exec()
+    return query
 }
