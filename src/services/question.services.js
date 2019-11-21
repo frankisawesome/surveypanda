@@ -20,6 +20,7 @@ function find(name, date) {
 async function create(name) {
     //find the company document by name
     try {
+        //get the company profile
         let companyArr = await companyServices.find(name)
         const company = companyArr[0]
         const newSet = new QuestionSet({
@@ -42,6 +43,26 @@ async function create(name) {
     }
 }
 
-async function updateAnswers() {
+async function updateAnswers(name, date, answers) {
+    try {
+        let qArr = await find(name, date)
+        const qset = qArr[0]
 
+        if (answers.length !== qset.questions.length) {
+            throw {
+                error: true,
+                message: "Answer number not equal to questions count!"
+            }
+        }
+
+        else {
+            answers.map((answer, i) => {
+                qset.questions[i].results.push(answer)
+            })
+            return qset.save()
+        }
+    }
+    catch (err) {
+        throw err;
+    }
 }

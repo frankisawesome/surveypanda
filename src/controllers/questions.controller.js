@@ -42,6 +42,18 @@ function answer(req, res) {
     //query params
     const name = req.body.name
     const date = new Date(Date.now())
+    const answers = req.body.answers
+
+    questionServices.updateAnswers(name,date,answers)
+    .then((doc) => {
+        res.status(202)
+        res.send(doc)
+    })
+    .catch((err) => {
+        res.status(400)
+        console.log(err)
+        res.send(err.message)
+    })
 
 }
 module.exports = router
