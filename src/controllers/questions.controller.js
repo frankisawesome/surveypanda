@@ -4,14 +4,17 @@ const questionServices = require('../services/question.services');
 
 //API Endpoints
 router.get('/today', today) //returns today's questionnare, create if non, for a particular company
-
+router.post('/answer', answer) //answers a specific questionnare by company
 
 //Controller functions
 function today(req, res) {
+    //query params
     const name = req.body.name
     const date = new Date(Date.now())
+    //find if questionnare exists
     questionServices.find(name, date)
         .then((doc) => {
+            //if non existant create mode
             if (doc.length === 0) {
                 questionServices.create(name)
                     .then((newdoc) => {
@@ -23,6 +26,7 @@ function today(req, res) {
                         res.send(err.message)
                     })
             }
+            //else send questionnare
             else {
                 res.status(200)
                 res.send(doc)
@@ -34,4 +38,10 @@ function today(req, res) {
         })
 }
 
+function answer(req, res) {
+    //query params
+    const name = req.body.name
+    const date = new Date(Date.now())
+
+}
 module.exports = router

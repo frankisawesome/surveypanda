@@ -1,3 +1,12 @@
+// --------- WARNNING -------------- //
+/*
+Survey route is used in release version v0.1
+In the process of getting deprecated
+Please do not make changes or use any of the below functions as dependencies
+This file and all supporting API routes will be removed in the new version
+*/
+// --------------------------------- //
+
 var express = require('express');
 var router = express.Router();
 const Survey = require('../models/survey');
