@@ -32,7 +32,8 @@ app.use(cookieParser());
 mongoose.connect(process.env.DB_CON, {
   useUnifiedTopology: true,
   useCreateIndex: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  autoReconnect: true
 })
   .then(() => console.log('Connection to DB successful'))
   .catch((err) => console.log(err))
@@ -46,6 +47,7 @@ app.use('/company', companyRouter);
 app.use('/user', userRouter);
 app.use('/question', questionRouter);
 app.use('/search', searchRouter)
+
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

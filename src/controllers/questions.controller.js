@@ -46,14 +46,14 @@ function answer(req, res) {
 
     questionServices.updateAnswers(name,date,answers)
     .then((doc) => {
-        res.status(202)
+        res.status(200)
         res.send(doc)
     })
     .catch((err) => {
         res.status(400)
         console.log(err)
         res.send(err.message)
-    })
+    }) 
 
 }
 module.exports = router

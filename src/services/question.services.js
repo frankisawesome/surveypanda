@@ -46,14 +46,21 @@ async function create(name) {
 async function updateAnswers(name, date, answers) {
     try {
         let qArr = await find(name, date)
+        if (qArr.length === 0) {
+            throw {
+                error: true,
+                message: 'The questionniare does not exist yet!'
+            }
+        }
+        
         const qset = qArr[0]
-
         if (answers.length !== qset.questions.length) {
             throw {
                 error: true,
                 message: "Answer number not equal to questions count!"
             }
         }
+        
 
         else {
             answers.map((answer, i) => {
