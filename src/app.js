@@ -14,6 +14,7 @@ var surveysRouter = require('./controllers/survey.controller');
 var companyRouter = require('./controllers/company.controller');
 var userRouter = require('./controllers/user.controller');
 var questionRouter = require('./controllers/questions.controller');
+var searchRouter = require('./controllers/search.controller')
 
 //App
 var app = express();
@@ -44,6 +45,7 @@ app.use('/surveys', surveysRouter);
 app.use('/company', companyRouter);
 app.use('/user', userRouter);
 app.use('/question', questionRouter);
+app.use('/search', searchRouter)
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
