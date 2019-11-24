@@ -30,4 +30,4 @@ const Company = mongoose.Schema({
     ]
 })
 
-module.exports = mongoose.model('Company', Company)
+export = mongoose.model('Company', Company)

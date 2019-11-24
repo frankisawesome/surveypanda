@@ -15,4 +15,4 @@ const questionSetSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('QuestionSet', questionSetSchema)
+export = mongoose.model('QuestionSet', questionSetSchema)
