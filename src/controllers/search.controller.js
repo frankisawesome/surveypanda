@@ -16,7 +16,7 @@ function getDaily(req, res) {
         if (qset.length === 0){
             throw {
                 error: true,
-                message: "No questionnaire for today, check your request body!"
+                message: "Can't find requested questionnaire, check your request body!"
             }
         }
         else {
@@ -24,13 +24,25 @@ function getDaily(req, res) {
         }
     })
     .then((qset) => {
-        const result = {
+        const summary = {
             measures: [],
             averages: []
         }
         qset.questions.map((question) => {
-
+            let sum = 0;
+            let count = 0;
+            question.results.map((result) => {
+                sum += result;
+                count ++;
+            })
+            summary.averages.push(sum / count)
+            summary.measures.push(question.measures)
         })
+        return summary
+    })
+    .then((sum) => {
+        res.status(200)
+        res.send(sum)
     })
     .catch((err) => {
         res.status(400)
