@@ -23,4 +23,4 @@ const Survey = mongoose.Schema({
     }
 })
 
-export = mongoose.model('Survey', Survey)
+module.exports = mongoose.model('Survey', Survey)
