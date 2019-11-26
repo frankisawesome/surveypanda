@@ -50,4 +50,12 @@ function getDaily(req, res) {
     })
 }
 
+function getWeekly(req, res) {
+    const name = req.body.name
+    const date = req.body.startDate
+
+    questionServices.findWeek(name, date)
+    
+}
+
 module.exports = router
