@@ -7,23 +7,21 @@ router.get('/day', getDaily)
 
 
 //Controller functions
-function getDaily(req, res) {
+async function getDaily(req, res) {
     const name = req.body.name
     const date = new Date(Date.now())
     
-    questionServices.find(name, date)
-    .then((qset) => {
+    try {
+        let qset = await questionServices.find(name, date);
         if (qset.length === 0){
             throw {
                 error: true,
-                message: "Can't find requested questionnaire, check your request body!"
+                message: "Can't find requested questionnaire, could be: 1. the questionnaire does not exist, hit question/today first, 2. request body error, check that you have a correct name field in your request body"
             }
         }
         else {
-            return qset[0]
+            qset = qset[0]
         }
-    })
-    .then((qset) => {
         const summary = {
             measures: [],
             averages: []
@@ -38,24 +36,22 @@ function getDaily(req, res) {
             summary.averages.push(sum / count)
             summary.measures.push(question.measures)
         })
-        return summary
-    })
-    .then((sum) => {
         res.status(200)
-        res.send(sum)
-    })
-    .catch((err) => {
+        res.send(summary)
+    }
+    catch(err) {
         res.status(400)
-        res.send(err.message)
-    })
+        console.log(err)
+        res.send(err)
+    }
 }
 
-function getWeekly(req, res) {
+async function getWeekly(req, res) {
     const name = req.body.name
     const date = req.body.startDate
 
     questionServices.findWeek(name, date)
-    
+
 }
 
 module.exports = router
