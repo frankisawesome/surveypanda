@@ -50,8 +50,16 @@ async function getWeekly(req, res) {
     const name = req.body.name
     const date = req.body.startDate
 
-    questionServices.findWeek(name, date)
+    let qsetArr = await questionServices.findWeek(name, date)
 
+    if (qsetArr.length = 0) {
+        throw {
+            error: true,
+            message: "Can't find requested set of questionnaires, could be: 1. the questionnaire does not exist 2. request body error, check that you have a correct name field in your request body"
+        }
+    }
+
+    
 }
 
 module.exports = router
