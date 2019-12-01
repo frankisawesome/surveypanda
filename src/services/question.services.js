@@ -10,8 +10,14 @@ module.exports = {
 
 //find a questionnare for a particular company on a given day
 function find(name, date) {
-    const upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
-    const lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    let upper, lower;
+    try {
+        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+        lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    }
+    catch(err) {
+        throw err
+    }
 
     const query = QuestionSet.find({ companyName: name, date: { $lte: upper, $gte: lower } })
 
@@ -21,8 +27,14 @@ function find(name, date) {
 
 //start date
 function findWeek(name, date){
-    const upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7)
-    const lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    let upper, low;
+    try {
+        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7)
+        lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    }
+    catch (err) {
+        throw err
+    }
 
     const query = QuestionSet.find( { companyName: name, date: { $lte: upper, $gte: lower}})
 
