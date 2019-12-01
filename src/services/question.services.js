@@ -1,5 +1,6 @@
 const QuestionSet = require('../models/questionSet')
-const companyServices = require('../services/company.services')
+const companyServices = require('./company.services')
+const searchServices = require('./search.services')
 
 module.exports = {
     create,
@@ -90,6 +91,8 @@ async function updateAnswers(name, date, answers) {
             answers.map((answer, i) => {
                 qset.questions[i].results.push(answer)
             })
+            const summary = searchServices.summary(qset)
+            qset.summary = summary
             return qset.save()
         }
     }

@@ -12,6 +12,12 @@ const questionSetSchema = mongoose.Schema({
                 measures: String //records what the question measures
             }
         ]
+    },
+    summary: {
+        type: {
+            measures: [String],
+            averages: [Number]
+        }
     }
 })
 
