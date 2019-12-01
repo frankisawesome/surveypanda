@@ -74,7 +74,7 @@ async function updateAnswers(name, date, answers) {
         if (qArr.length === 0) {
             throw {
                 error: true,
-                message: 'The questionniare does not exist yet!'
+                message: 'The questionnaire does not exist yet!'
             }
         }
         
