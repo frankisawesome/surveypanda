@@ -1,7 +1,8 @@
 var Router = require('express');
 var router = Router();
 const questionServices = require('../services/question.services');
-const searchServices = require('../services/search.services')
+const searchServices = require('../services/search.services');
+const arrayEqual = require('array-equal')
 
 //API Endpoints
 router.get('/day', getDaily)
@@ -24,9 +25,8 @@ async function getDaily(req, res) {
         else {
             qset = qset[0]
         }
-        const summary = searchServices.summary(qset)
         res.status(200)
-        res.send(summary)
+        res.send(qset.summary)
     }
     catch (err) {
         res.status(400)
@@ -50,7 +50,7 @@ async function getWeekly(req, res) {
     try {
         let qsetArr = await questionServices.findWeek(name, date)
 
-        if (qsetArr.length = 0) {
+        if (qsetArr.length === 0) {
             throw {
                 error: true,
                 message: "Can't find requested set of questionnaires, could be: 1. the questionnaire does not exist 2. request body error, check that you have a correct name field in your request body, and a correct week value"
@@ -58,15 +58,54 @@ async function getWeekly(req, res) {
         }
 
         const numOfSet = qsetArr.length
-        const summary = {
-            measures: [],
-            averages: []
+        const setOfSummary = []
+        let resultSummary
+        const averageSums = []
+
+        qsetArr.map((qset) => {
+            setOfSummary.push(qset.summary)
+        })
+
+        setOfSummary.map((sum, i) => {
+            if (i == 0) {
+                resultSummary = {
+                    measures: sum.measures,
+                    averages: []
+                }
+                sum.averages.map((average) => {
+                    averageSums.push(average)
+                })
+            }
+            else {
+                if (!arrayEqual(sum.measures, resultSummary.measures)) {
+                    throw {
+                        error: true,
+                        message: "Changes have been made to your measuring metrics in the past week, try again next week!"
+                    }
+                }
+                else {
+                    sum.averages.map((average, j) => {
+                        averageSums[j] += average
+                    })
+                }
+            }
+        })
+        for (i = 0; i < averageSums.length; i++) {
+            resultSummary.averages[i] = averageSums[i] / numOfSet
         }
+
+        res.status(200)
+        res.send(resultSummary)
     }
 
     catch(err) {
-        res.status(400)
-        res.send(err.message)
+        if (err.message == "Cannot read property 'measures' of undefined") {
+            res.send("You are querying legacy data where summary on save was not implemented!")
+        }
+        else {
+            res.status(400)
+            res.send(err.message)
+        }
     }
 }
 
