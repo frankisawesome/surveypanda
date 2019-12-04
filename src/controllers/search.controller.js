@@ -2,10 +2,12 @@ var Router = require('express')
 var router = Router()
 const questionServices = require('../services/question.services')
 const searchServices = require('../services/search.services')
+const dateServices = require('../services/date.services')
 
 //API Endpoints
 router.get('/day', getDaily)
 router.get('/week', getWeekly)
+router.get('/trend', getTrend)
 
 
 //Controller functions
@@ -36,16 +38,7 @@ async function getDaily(req, res) {
 
 async function getWeekly(req, res) {
     const name = req.body.name
-    let date;
-    //req.body.week should be a integer value less or equal to 0, representing weeks from the current week.
-    if (req.body.week == undefined) {
-        const today = new Date(Date.now())
-        date = new Date (today.getFullYear(), today.getMonth(), today.getDate() - today.getDay())
-    }
-    else {
-        const today = new Date(Date.now())
-        date = new Date (today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + (7 * req.body.week))
-    }
+    const date = dateServices.startOfWeek(req.body.week)
     try {
         let qsetArr = await questionServices.findWeek(name, date)
 
@@ -57,13 +50,17 @@ async function getWeekly(req, res) {
 
     catch(err) {
         if (err.message == "Cannot read property 'measures' of undefined") {
-            res.send("You are querying legacy data where summary on save was not implemented!")
+            res.send("Ydou are querying legacy data where summary on save was not implemented!")
         }
         else {
             res.status(400)
             res.send(err.message)
         }
     }
+}
+
+async function getTrend(req, res) {
+
 }
 
 module.exports = router

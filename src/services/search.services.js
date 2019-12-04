@@ -1,4 +1,3 @@
-const QuestionSet = require('../models/questionSet')
 const arrayEqual = require('array-equal')
 
 module.exports = {

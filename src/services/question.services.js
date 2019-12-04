@@ -1,6 +1,7 @@
 const QuestionSet = require('../models/questionSet')
 const companyServices = require('./company.services')
 const searchServices = require('./search.services')
+const dateServices = require('./date.services')
 
 module.exports = {
     create,
@@ -11,15 +12,8 @@ module.exports = {
 
 //find a questionnare for a particular company on a given day
 function find(name, date) {
-    let upper, lower;
-    try {
-        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
-        lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-    }
-    catch(err) {
-        throw err
-    }
-
+    const [upper, lower] = dateServices.intervalDay(date)
+    
     const query = QuestionSet.find({ companyName: name, date: { $lte: upper, $gte: lower } })
 
     return query.exec()
@@ -28,15 +22,8 @@ function find(name, date) {
 
 //start date
 function findWeek(name, date){
-    let upper, low;
-    try {
-        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7)
-        lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-    }
-    catch (err) {
-        throw err
-    }
-
+    const [upper, lower] = dateServices.intervalWeek(date)
+    
     const query = QuestionSet.find( { companyName: name, date: { $lte: upper, $gte: lower}})
 
     return query.exec()
