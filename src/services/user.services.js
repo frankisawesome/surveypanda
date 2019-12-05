@@ -20,9 +20,9 @@ async function create(userparams) {
     }
     const user = new User(userparams)
 
-    user.hash = bcrypt.hashSync(userparams.password, process.env.SALT)
+    user.hash = bcrypt.hashSync(userparams.password, parseInt(process.env.SALT))
 
-    await user.save()
+    return user.save()
 }
 
 //authenticate new login request

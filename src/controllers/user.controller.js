@@ -23,7 +23,7 @@ function create(req, res){
     })
     .catch((err) => {
         res.status(400)
-        res.json(err)
+        res.send(err.message)
     })
 }
 
