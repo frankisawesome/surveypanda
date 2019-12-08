@@ -41,7 +41,7 @@ async function find(nameid) {
 }
 
 //Update arrays of question and measure
-async function updateQuestion(questions, measures, name) {
+async function updateQuestion(questions, measures, nameid) {
     const payload = [];
     questions.map((question, i) => {
         qobj = {
@@ -50,7 +50,7 @@ async function updateQuestion(questions, measures, name) {
         }
         payload.push(qobj)
     })
-    var query = Company.findOneAndUpdate( {name: name} , { $set: { questions: payload}})
+    var query = Company.findOneAndUpdate( {nameid: nameid} , { $set: { questions: payload}})
 
     return query
 }
