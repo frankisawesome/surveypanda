@@ -1,35 +1,38 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "CAB230 API",
-        "description": "This is an API made for the CAB230 Assignment, modelled off https://cab230.hackhouse.sh/#/, developed by Yingpeng Li, student number 10113720, QUT.",
-        "version": "1.0.0",
+        "title": "Survey Panda API",
+        "description": "The Survey Panda API developed by Frank Li.",
+        "version": "0.2.0",
         "contact": {
-            "email": "n10113720@qut.edu.au"
+            "email": "threestones2@hotmail.com"
         }
     },
     "servers": [
         {
-            "url": "http://localhost:3000"
+            "url": "http://localhost:3001"
         }
     ],
     "basePath": "/",
     "tags": [
         {
-            "name": "Authentication"
+            "name": "User"
+        },
+        {
+            "name": "Company"
+        },
+        {
+            "name": "Question"
         },
         {
             "name": "Search"
-        },
-        {
-            "name": "Helpers"
         }
     ],
     "paths": {
-        "/register": {
+        "/user/new": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "User"
                 ],
                 "summary": "Register a new user account",
                 "requestBody": {
@@ -39,13 +42,17 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "email": {
+                                    "username": {
                                         "type": "string",
                                         "example": "example@mail.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "example": "examplepassword"
+                                    },
+                                    "companyId": {
+                                        "type": "string",
+                                        "example": "big_company"
                                     }
                                 }
                             }
@@ -62,7 +69,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "yay! you've successfully registered your user account :)"
+                                            "example": "User Created"
                                         }
                                     }
                                 }
@@ -88,10 +95,10 @@
                 }
             }
         },
-        "/login": {
+        "/user/login": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "User"
                 ],
                 "summary": "Login with existing user account",
                 "requestBody": {
@@ -101,7 +108,7 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "email": {
+                                    "username": {
                                         "type": "string",
                                         "example": "demouser@gmail.com"
                                     },
@@ -158,283 +165,128 @@
                 }
             }
         },
-        "/search": {
+        "/company/new": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Create new company record with default questionset",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Cheeky Bikes"
+                                    },
+                                    "industry": {
+                                        "type": "string",
+                                        "example": "Retail"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company/update": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Update existing company's questionset",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "cheekybikes"
+                                    },
+                                    "measures": {
+                                        "type": ["string"],
+                                        "example": ["Workload Perception", "Stress Level"]
+                                    },
+                                    "questions": {
+                                        "type": ["string"],
+                                        "example": ["How was the workload today?", "Did you find today a bit stressful?"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company/find": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Find a company's information base on nameid",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "examplecompany"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/question/today": {
+            "get": {
+                "tags": [
+                    "Question"
+                ],
+                "summary": "Find existing or create new questionnaire for a particular company on today"
+            }
+        },
+        "/question/answer": {
+            "post": {
+                "tags": [
+                    "Question"
+                ],
+                "summary": "Post answers to a existing questionnaire"
+            }
+        },
+        "/search/day": {
             "get": {
                 "tags": [
                     "Search"
                 ],
-                "summary": "Search for offence data",
-                "parameters": [
-                    {
-                        "name": "offence",
-                        "in": "query",
-                        "description": "Name of the offence to search for",
-                        "required": true,
-                        "schema": {
-                          "type": "string"
-                        },
-                        "style": "simple"
-                      },
-                      {
-                        "name": "area",
-                        "in": "query",
-                        "description": "List of comma-separated Areas (LGAs) to filter search results by",
-                        "required": false,
-                        "schema": {
-                          "type": "string"
-                        },
-                        "style": "simple"
-                      },
-                      {
-                        "name": "age",
-                        "in": "query",
-                        "description": "List of comma-separated Ages to filter search results by",
-                        "required": false,
-                        "schema": {
-                          "type": "string"
-                        },
-                        "style": "simple"
-                      },
-                      {
-                        "name": "gender",
-                        "in": "query",
-                        "description": "List of comma-separated genders to filter search results by",
-                        "required": false,
-                        "schema": {
-                          "type": "string"
-                        },
-                        "style": "simple"
-                      },
-                      {
-                        "name": "year",
-                        "in": "query",
-                        "description": "List of comma-separated years to filter search results by",
-                        "required": false,
-                        "schema": {
-                          "type": "string"
-                        },
-                        "style": "simple"
-                      },
-                      {
-                        "name": "month",
-                        "in": "query",
-                        "description": "List of comma-separated months to filter search results by",
-                        "required": false,
-                        "schema": {
-                          "type": "string"
-                        },
-                        "style": "simple"
-                      }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "query": {
-                                            "type": "object",
-                                            "properties":{
-                                                "offence": {
-                                                    "type": "string",
-                                                    "example": "Homicide (Murder)"
-                                                }
-                                            }
-
-                                        },
-                                        "result": {
-                                            "type":"array",
-                                            "items": {
-                                                "type":"object",
-                                                "example":{
-                                                   "LGA": "Aurukun Shire Council",
-                                                   "total": 4,
-                                                   "lat": -27.470812,
-                                                   "lng": 153.022455
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400":{
-                        "description": "Bad Request",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "oops! it looks like you're missing the offence query parm"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "oh no! it looks like your authorization token is invalid..."                            
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                "summary": "Search for average results of the day of a company"
             }
         },
-        "/offences": {
+        "/search/week": {
             "get": {
                 "tags": [
-                    "Helpers"
+                    "Search"
                 ],
-                "summary": "List of offences to perform searches for",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "offences": {
-                                            "type": "array",
-                                            "items":{
-                                                "type":"string",
-                                                "example": "Advertising Prostitution"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                "summary": "Search for average results of the week of a company"
             }
         },
-        "/areas": {
+        "/search/trend": {
             "get": {
                 "tags": [
-                    "Helpers"
+                    "Search"
                 ],
-                "summary": "List of Areas to filter search results by",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "areas": {
-                                            "type": "array"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/ages": {
-            "get": {
-                "tags": [
-                    "Helpers"
-                ],
-                "summary": "List of Ages to filter search results by",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "ages": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string",
-                                                "example": "Arukun Shire Council"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/genders": {
-            "get": {
-                "tags": [
-                    "Helpers"
-                ],
-                "summary": "List of Genders to filter search results by",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "genders": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string",
-                                                "example": "male"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/years": {
-            "get": {
-                "tags": [
-                    "Helpers"
-                ],
-                "summary": "List of Years to filter search results by",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content":{
-                            "application/json":{
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "years": {
-                                            "type": "array",
-                                            "items":{
-                                                "type": "string",
-                                                "example": "2010"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                "summary": "Search for trend of a company"
             }
         }
     }
