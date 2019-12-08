@@ -12,6 +12,7 @@ module.exports = {
 function parse (req, res, next) {
     const post = new Company({
         name: req.body.name,
+        nameid: req.body.name.replace(/\s+/g, '').toLowerCase(),
         industry: req.body.industry,
         subscription: req.body.subscription,
         dateCreated: Date.now(),
@@ -33,9 +34,9 @@ async function create(company) {
     return query
 }
 
-//Find company by name
-async function find(name) {
-    var query = Company.find({ name: name })
+//Find company by nameid
+async function find(nameid) {
+    var query = Company.find({ nameid: nameid })
     return query
 }
 

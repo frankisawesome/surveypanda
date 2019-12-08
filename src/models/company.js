@@ -5,6 +5,10 @@ const Company = mongoose.Schema({
         type:String,
         unique:true
     },
+    nameid: {
+        type:String,
+        unique: true
+    },
     industry: String,
     subscription: String,
     dateCreated: {
