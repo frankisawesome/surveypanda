@@ -29,7 +29,7 @@ function create (req, res) {
 }
 
 function find(req, res) {
-    companyServices.find(req.body.name)
+    companyServices.find(req.body.nameid)
     .then((company) => {
         res.send(company)
     })
@@ -40,7 +40,7 @@ function find(req, res) {
 }
 
 function update(req, res) {
-    companyServices.updateQuestion(req.body.questions, req.body.measures, req.body.name)
+    companyServices.updateQuestion(req.body.questions, req.body.measures, req.body.nameid)
     .then((doc) => {
         res.status(202)
         res.json({message: 'Update successful', document: doc})
