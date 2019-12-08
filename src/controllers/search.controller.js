@@ -12,11 +12,11 @@ router.get('/trend', getTrend)
 
 //Controller functions
 async function getDaily(req, res) {
-    const name = req.body.name
+    const id = req.body.id
     const date = new Date(Date.now())
 
     try {
-        let qset = await questionServices.find(name, date);
+        let qset = await questionServices.find(id, date);
         if (qset.length === 0) {
             throw {
                 error: true,
@@ -37,10 +37,10 @@ async function getDaily(req, res) {
 }
 
 async function getWeekly(req, res) {
-    const name = req.body.name
+    const id = req.body.id
     const date = dateServices.startOfWeek(req.body.week)
     try {
-        let qsetArr = await questionServices.findWeek(name, date)
+        let qsetArr = await questionServices.findWeek(id, date)
 
         const resultSummary = searchServices.summaryForArray(qsetArr)
 
