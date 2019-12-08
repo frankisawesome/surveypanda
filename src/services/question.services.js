@@ -11,32 +11,32 @@ module.exports = {
 }
 
 //find a questionnare for a particular company on a given day
-function find(name, date) {
+function find(id, date) {
     const [upper, lower] = dateServices.intervalDay(date)
     
-    const query = QuestionSet.find({ companyName: name, date: { $lte: upper, $gte: lower } })
+    const query = QuestionSet.find({ companyId: id, date: { $lte: upper, $gte: lower } })
 
     return query.exec()
 }
 
 
 //start date
-function findWeek(name, date){
+function findWeek(id, date){
     const [upper, lower] = dateServices.intervalWeek(date)
     
-    const query = QuestionSet.find( { companyName: name, date: { $lte: upper, $gte: lower}})
+    const query = QuestionSet.find( { companyId: id, date: { $lte: upper, $gte: lower}})
 
     return query.exec()
 }
 
-async function create(name) {
+async function create(id) {
     //find the company document by name
     try {
         //get the company profile
-        let companyArr = await companyServices.find(name)
+        let companyArr = await companyServices.find(id)
         const company = companyArr[0]
         const newSet = new QuestionSet({
-            companyName: name,
+            companyId: id,
             questions: []
         })
         company.questions.map((question) => {
@@ -55,9 +55,9 @@ async function create(name) {
     }
 }
 
-async function updateAnswers(name, date, answers) {
+async function updateAnswers(id, date, answers) {
     try {
-        let qArr = await find(name, date)
+        let qArr = await find(id, date)
         if (qArr.length === 0) {
             throw {
                 error: true,

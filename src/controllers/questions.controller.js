@@ -9,14 +9,14 @@ router.post('/answer', answer) //answers a specific questionnare by company
 //Controller functions
 function today(req, res) {
     //query params
-    const name = req.body.name
+    const id = req.body.id
     const date = new Date(Date.now())
     //find if questionnare exists
-    questionServices.find(name, date)
+    questionServices.find(id, date)
         .then((doc) => {
             //if non existant create mode
             if (doc.length === 0) {
-                questionServices.create(name)
+                questionServices.create(id)
                     .then((newdoc) => {
                         res.status(201)
                         res.send(newdoc)
@@ -40,11 +40,11 @@ function today(req, res) {
 
 function answer(req, res) {
     //query params
-    const name = req.body.name
+    const id = req.body.id
     const date = new Date(Date.now())
     const answers = req.body.answers
 
-    questionServices.updateAnswers(name,date,answers)
+    questionServices.updateAnswers(id,date,answers)
     .then((doc) => {
         res.status(200)
         res.send(doc)
