@@ -254,7 +254,23 @@
                 "tags": [
                     "Question"
                 ],
-                "summary": "Find existing or create new questionnaire for a particular company on today"
+                "summary": "Find existing or create new questionnaire for a particular company on today",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "examplecompany"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/question/answer": {
@@ -262,7 +278,27 @@
                 "tags": [
                     "Question"
                 ],
-                "summary": "Post answers to a existing questionnaire"
+                "summary": "Post answers to a existing questionnaire",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "examplecompany"
+                                    },
+                                    "answers": {
+                                        "type": ["number"],
+                                        "example": [3, 4, 4]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/search/day": {
@@ -270,7 +306,23 @@
                 "tags": [
                     "Search"
                 ],
-                "summary": "Search for average results of the day of a company"
+                "summary": "Search for average results of the day of a company",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "examplecompany"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/search/week": {
@@ -278,7 +330,23 @@
                 "tags": [
                     "Search"
                 ],
-                "summary": "Search for average results of the week of a company"
+                "summary": "Search for average results of the week of a company",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "examplecompany"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/search/trend": {
@@ -286,7 +354,23 @@
                 "tags": [
                     "Search"
                 ],
-                "summary": "Search for trend of a company"
+                "summary": "Search for trend of a company",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "examplecompany"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
