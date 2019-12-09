@@ -29,9 +29,15 @@ function create (req, res) {
 }
 
 function find(req, res) {
+    if (req.body.id == undefined) {
+        res.send('include id in your request body! it will be the company name all lowercased and no space')
+    }
     companyServices.find(req.body.id)
     .then((company) => {
-        res.send(company)
+        if (company.length === 0) {
+            res.send('Could not find specified company!')
+        }
+        res.send(company[0])
     })
     .catch((err) => {
         res.status(404)

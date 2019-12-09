@@ -22,6 +22,9 @@ function today(req, res) {
                         res.send(newdoc)
                     })
                     .catch((err) => {
+                        if (err.message == "Cannot read property 'questions' of undefined") {
+                            res.send("Company ID not valid, check that the company exists!")
+                        }
                         res.status(400)
                         res.send(err.message)
                     })
