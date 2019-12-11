@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-
 function db(mongoose, db_string) {
     mongoose.connect(db_string, {
       useUnifiedTopology: true,
