@@ -22,4 +22,31 @@ const questionSetSchema = mongoose.Schema({
     }
 })
 
+//method for finding the average of a certain question
+questionSchema.methods.findAverage = function() {
+    let sum = 0;
+    let count = 0;
+    this.results.map((result) => {
+        sum += result;
+        count++;
+    })
+    return [sum / count, this.measures]
+}
+
+//methods for summarising a question set
+// *** NOT EFFICIENT *** //
+questionSetSchema.methods.summarise = function() {
+    const summary = {
+        measures: [],
+        averages: []
+    }
+    this.questions.map((question) => {
+        const [average, measure] = question.findAverage()
+        summary.averages.push(average)
+        summary.measures.push(measure)
+    })
+    this.summary = summary
+}
+
+
 module.exports = mongoose.model('QuestionSet', questionSetSchema)

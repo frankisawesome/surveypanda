@@ -3,6 +3,7 @@ const companyServices = require('./company.services')
 const searchServices = require('./search.services')
 const dateServices = require('./date.services')
 
+
 module.exports = {
     create,
     find,
@@ -78,8 +79,7 @@ async function updateAnswers(id, date, answers) {
             answers.map((answer, i) => {
                 qset.questions[i].results.push(answer)
             })
-            const summary = searchServices.summary(qset)
-            qset.summary = summary
+            qset.summarise()
             return qset.save()
         }
     }
