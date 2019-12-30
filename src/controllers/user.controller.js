@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const userService = require('../services/user.services');
+const companyService = require('../services/company.services');
 
 //API endpoints
 router.get('/', greet)
-router.post('/new', create)
+router.post('/new', companyService.parse, create)
 router.post('/login', authenticate)
 //testing the authorise and emplyoer authorise middlewares
 router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
@@ -15,16 +16,17 @@ function greet(req, res){
 }
 
 //create new user
-function create(req, res){
-    userService.create(req.body)
-    .then(() => {
+async function create(req, res){
+    try {
+        const newUser = await userService.create(req.body)
+        const newCompany = await companyService.create(req.payload)
         res.status(201)
-        res.send(`Successfully created user ${req.body.username}`)
-    })
-    .catch((err) => {
+        res.send(`Successfully created user ${newUser.email} for company ${newCompany.name}`)
+    }
+    catch(err) {
         res.status(400)
         res.send(err.message)
-    })
+    }
 }
 
 //authenticate a login request with a JWT

@@ -12,15 +12,16 @@ module.exports = {
 
 //business logic for creating new user in the database, hashing the password
 async function create(userparams) {
-    if (await User.findOne({ username: userparams.username })) {
+    if (await User.findOne({ email: userparams.email })) {
         throw {
             error: true,
-            message: `User ${userparams.username} already exists`
+            message: `User ${userparams.email} already exists`
         }
     }
     const user = new User(userparams)
 
     user.hash = bcrypt.hashSync(userparams.password, parseInt(process.env.SALT))
+    user.companyId = userparams.name.replace(/\s+/g, '').toLowerCase()
 
     return user.save()
 }

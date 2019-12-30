@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const user = new Schema({
-    username: {
+    email: {
         type: String,
         unique: true,
         required: true
@@ -26,15 +26,6 @@ const user = new Schema({
     companyId: {
         type: String,
         required: true
-    },
-    lastSurvey: Date,
-    //For future incentive feature, e.g. : { name: "muffin point", score: 5 }
-    incentive: {
-        name: String,
-        score: {
-            type: Number,
-            default: 0
-        }
     }
 })
 
