@@ -10,16 +10,21 @@ module.exports = {
 
 //middleware that parses a request body into a new company object, attached to the req object as req.payload
 function parse (req, res, next) {
-    const post = new Company({
-        name: req.body.name,
-        nameid: req.body.name.replace(/\s+/g, '').toLowerCase(),
-        industry: req.body.industry,
-        subscription: req.body.subscription,
-        dateCreated: Date.now(),
-        lastUpdated: Date.now()
-    })
-
-    req.payload = post;
+    try {
+        const post = new Company({
+            name: req.body.name,
+            nameid: req.body.name.replace(/\s+/g, '').toLowerCase(),
+            industry: req.body.industry,
+            subscription: req.body.subscription,
+            dateCreated: Date.now(),
+            lastUpdated: Date.now()
+        }) 
+        req.payload = post;
+    }
+    catch(err) {
+        res.status(400)
+        res.send("Error creating a new company, check that you have the right post body!")
+    }
 
     next();
 }
