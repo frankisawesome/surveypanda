@@ -28,11 +28,11 @@ async function create(userparams) {
 
 //authenticate new login request
 async function authenticate(userparams) {
-    const user = await User.findOne({ username: userparams.username })
+    const user = await User.findOne({ email: userparams.email })
     if (user) {
         if (bcrypt.compareSync(userparams.password, user.hash)) {
             //sign a token with username and 3 hour expiration as payload and private key from environmental variable
-            return jwt.sign({ username: userparams.username, group: userparams.group }, process.env.PRIVATE_KEY)
+            return jwt.sign( {email: user.email, companyId: user.companyId }, process.env.PRIVATE_KEY)
         }
         else {
             throw {
@@ -44,7 +44,7 @@ async function authenticate(userparams) {
     else {
         throw {
             error: true,
-            message: 'Username not found'
+            message: 'Email not found'
         }
     }
 }
