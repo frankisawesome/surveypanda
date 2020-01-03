@@ -32,7 +32,11 @@ async function authenticate(userparams) {
     if (user) {
         if (bcrypt.compareSync(userparams.password, user.hash)) {
             //sign a token with username and 3 hour expiration as payload and private key from environmental variable
-            return jwt.sign( {email: user.email, companyId: user.companyId }, process.env.PRIVATE_KEY)
+            const res = {
+                token: jwt.sign( {email: user.email, companyId: user.companyId }, process.env.PRIVATE_KEY), 
+                companyId: user.companyId 
+            }
+            return res
         }
         else {
             throw {

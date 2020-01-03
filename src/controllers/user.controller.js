@@ -32,16 +32,13 @@ async function create(req, res){
 //authenticate a login request with a JWT
 function authenticate(req, res){
     userService.authenticate(req.body)
-    .then((token) => {
+    .then((response) => {
         res.status(200)
-        res.json({
-            success: true,
-            token: token
-        })
+        res.send(response)
     })
     .catch((err) => {
         res.status(401)
-        res.json(err)
+        res.send(err)
     })
 }
 
