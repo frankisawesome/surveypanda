@@ -7,38 +7,32 @@ router.get('/today', today) //returns today's questionnare, create if non, for a
 router.post('/answer', answer) //answers a specific questionnare by company
 
 //Controller functions
-function today(req, res) {
-    //query params
-    const id = req.body.id
-    const date = new Date(Date.now())
-    //find if questionnare exists
-    questionServices.find(id, date)
-        .then((doc) => {
-            //if non existant create mode
-            if (doc.length === 0) {
-                questionServices.create(id)
-                    .then((newdoc) => {
-                        res.status(201)
-                        res.send(newdoc)
-                    })
-                    .catch((err) => {
-                        if (err.message == "Cannot read property 'questions' of undefined") {
-                            res.send("Company ID not valid, check that the company exists!")
-                        }
-                        res.status(400)
-                        res.send(err.message)
-                    })
-            }
-            //else send questionnare
-            else {
-                res.status(200)
-                res.send(doc)
-            }
-        })
-        .catch((e) => {
-            console.log(e)
-            res.send(e)
-        })
+async function today(req, res) {
+    try {
+        //query params
+        const id = req.body.id
+        const date = new Date(Date.now())
+        //find if questionnare exists
+        const result = await questionServices.find(id, date)
+        if (result.length === 0) {
+            const newdoc = await questionServices.create(id)
+            res.status(201)
+            res.send(newdoc)
+        }
+        else {
+            res.status(200)
+            res.send(result[0])
+        }
+    }
+    catch(err) {
+        if (err.message == "Cannot read property 'questions' of undefined") {
+            res.send("Company ID not valid, check that the company exists!")
+        }
+        else {
+            res.status(400)
+            res.send(err.message)
+        }
+    }
 }
 
 function answer(req, res) {
@@ -47,16 +41,16 @@ function answer(req, res) {
     const date = new Date(Date.now())
     const answers = req.body.answers
 
-    questionServices.updateAnswers(id,date,answers)
-    .then((doc) => {
-        res.status(200)
-        res.send(doc)
-    })
-    .catch((err) => {
-        res.status(400)
-        console.log(err)
-        res.send(err.message)
-    }) 
+    questionServices.updateAnswers(id, date, answers)
+        .then((doc) => {
+            res.status(200)
+            res.send(doc)
+        })
+        .catch((err) => {
+            res.status(400)
+            console.log(err)
+            res.send(err.message)
+        })
 
 }
 module.exports = router
