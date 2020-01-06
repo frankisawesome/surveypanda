@@ -12,7 +12,7 @@ router.get('/trend', getTrend)
 
 //Controller functions
 async function getDaily(req, res) {
-    const id = req.body.id
+    const id = req.query.id
     const date = new Date(Date.now())
 
     try {
@@ -37,8 +37,8 @@ async function getDaily(req, res) {
 }
 
 async function getWeekly(req, res) {
-    const id = req.body.id
-    const date = dateServices.startOfWeek(req.body.week)
+    const id = req.query.id
+    const date = dateServices.startOfWeek(req.query.week)
     try {
         let qsetArr = await questionServices.findWeek(id, date)
 

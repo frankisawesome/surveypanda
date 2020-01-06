@@ -10,7 +10,7 @@ router.post('/answer', answer) //answers a specific questionnare by company
 async function today(req, res) {
     try {
         //query params
-        const id = req.body.id
+        const id = req.query.id
         const date = new Date(Date.now())
         //find if questionnare exists
         const result = await questionServices.find(id, date)
