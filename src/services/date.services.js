@@ -9,6 +9,8 @@ function startOfWeek (start) {
     let date;
     if (start == undefined) {
         const today = new Date(Date.now())
+        console.log(today.getDay())
+        console.log(today.getDate())
         date = new Date (today.getFullYear(), today.getMonth(), today.getDate() - today.getDay())
     }
     else if (start > 0) {
@@ -19,7 +21,7 @@ function startOfWeek (start) {
     }
     else {
         const today = new Date(Date.now())
-        date = new Date (today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + (7 * start))
+        date = new Date (today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() - (7 * start))
     }
     return date
 }

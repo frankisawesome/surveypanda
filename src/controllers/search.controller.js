@@ -18,10 +18,8 @@ async function getDaily(req, res) {
     try {
         let qset = await questionServices.find(id, date);
         if (qset.length === 0) {
-            throw {
-                error: true,
-                message: "Can't find requested questionnaire, could be: 1. the questionnaire does not exist, hit question/today first, 2. request body error, check that you have a correct name field in your request body"
-            }
+            res.status(200)
+            res.send("There's no answers for today yet!")
         }
         else {
             qset = qset[0]

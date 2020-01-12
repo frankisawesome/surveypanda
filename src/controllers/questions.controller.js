@@ -26,6 +26,7 @@ async function today(req, res) {
     }
     catch(err) {
         if (err.message == "Cannot read property 'questions' of undefined") {
+            res.status(400)
             res.send("Company ID not valid, check that the company exists!")
         }
         else {
