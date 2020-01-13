@@ -12,13 +12,18 @@ function summaryForArray(qsetArr) {
         }
     }
 
-    const numOfSet = qsetArr.length
+    let numOfValidSet = qsetArr.length
     const setOfSummary = []
     let resultSummary
     const averageSums = []
 
     qsetArr.map((qset) => {
-        setOfSummary.push(qset.summary)
+        if (qset.summary){
+            setOfSummary.push(qset.summary)
+        }
+        else {
+            numOfValidSet --
+        }
     })
 
     setOfSummary.map((sum, i) => {
@@ -46,7 +51,7 @@ function summaryForArray(qsetArr) {
         }
     })
     for (i = 0; i < averageSums.length; i++) {
-        resultSummary.averages[i] = averageSums[i] / numOfSet
+        resultSummary.averages[i] = averageSums[i] / numOfValidSet
     }
 
     return resultSummary
