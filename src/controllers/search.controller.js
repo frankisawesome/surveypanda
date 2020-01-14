@@ -25,7 +25,7 @@ async function getDaily(req, res) {
             qset = qset[0]
         }
         res.status(200)
-        res.send(qset.summary)
+        res.send(searchServices.trimAverages(qset.summary))
     }
     catch (err) {
         res.status(400)
@@ -40,7 +40,7 @@ async function getWeekly(req, res) {
     try {
         let qsetArr = await questionServices.findWeek(id, date)
 
-        const resultSummary = searchServices.summaryForArray(qsetArr)
+        const resultSummary = searchServices.trimAverages(searchServices.summaryForArray(qsetArr))
 
         res.status(200)
         res.send(resultSummary)

@@ -2,6 +2,7 @@ const arrayEqual = require('array-equal')
 
 module.exports = {
     summaryForArray,
+    trimAverages
 }
 
 function summaryForArray(qsetArr) {
@@ -55,5 +56,11 @@ function summaryForArray(qsetArr) {
     }
 
     return resultSummary
+}
+
+function trimAverages(summary) {
+    summary.averages = summary.averages.map(average => average.toFixed(2))
+
+    return summary
 }
 

@@ -17,7 +17,7 @@ function find(id, date) {
     
     const query = QuestionSet.find({ companyId: id, date: { $lte: upper, $gte: lower } })
 
-    return query.exec()
+    return query
 }
 
 
@@ -27,7 +27,7 @@ function findWeek(id, date){
     
     const query = QuestionSet.find( { companyId: id, date: { $lte: upper, $gte: lower}})
 
-    return query.exec()
+    return query
 }
 
 async function create(id) {
