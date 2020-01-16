@@ -12,7 +12,13 @@ module.exports = {
 
 //business logic for creating new user in the database, hashing the password
 async function create(userparams) {
-    if (await User.findOne({ email: userparams.email })) {
+    if (userparams.code !== process.env.INVITATION_CODE){
+        throw {
+            error: true,
+            message: "Incorrect invitation code!"
+        }
+    }
+    else if (await User.findOne({ email: userparams.email })) {
         throw {
             error: true,
             message: `User ${userparams.email} already exists`
