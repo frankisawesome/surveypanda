@@ -38,7 +38,8 @@ async function create(id) {
         const company = companyArr[0]
         const newSet = new QuestionSet({
             companyId: id,
-            questions: []
+            questions: [],
+            date: Date.now()
         })
         company.questions.map((question) => {
             const newq = {
