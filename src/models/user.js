@@ -26,7 +26,8 @@ const user = new Schema({
     companyId: {
         type: String,
         required: true
-    }
+    },
+    verified: { type: Boolean, default: false}
 })
 
 module.exports = mongoose.model('User', user)

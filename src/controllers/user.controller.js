@@ -7,12 +7,27 @@ const companyService = require('../services/company.services');
 router.get('/', greet)
 router.post('/new', companyService.parse, create)
 router.post('/login', authenticate)
+router.get('/verify', verify)
+router.get('/sign', sign)
 //testing the authorise and emplyoer authorise middlewares
 router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
 
 //controller functions
 function greet(req, res){
     res.send('User API')
+}
+
+async function sign(req, res) {
+    try {
+        const token = await userService.generateVerification(req.body)
+        res.status(200)
+        res.send(token)
+    }
+    catch(err){
+        res.status(400)
+        res.send(err.message)
+    }
+    
 }
 
 //create new user
@@ -40,6 +55,20 @@ function authenticate(req, res){
         res.status(401)
         res.send(err)
     })
+}
+
+async function verify(req, res) {
+    try {
+        const user = await userService.verify(req.query.token)
+        if (user.verified){
+            res.status(200)
+            res.send('Email verified!')
+        }
+    }
+    catch (err) {
+        res.status(400)
+        res.send(err.message)
+    }
 }
 
 module.exports = router
