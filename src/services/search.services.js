@@ -8,8 +8,8 @@ module.exports = {
 function summaryForArray(qsetArr) {
     if (qsetArr.length === 0) {
         throw {
-            error: true,
-            message: "Can't find requested set of questionnaires, could be: 1. the questionnaire does not exist 2. request body error, check that you have a correct name field in your request body, and a correct week value"
+            error: false,
+            message: "No results yet!"
         }
     }
 

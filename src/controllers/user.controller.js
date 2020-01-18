@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/user.services');
 const companyService = require('../services/company.services');
+const emailService = require('../services/email.services')
 
 //API endpoints
 router.get('/', greet)
 router.post('/new', companyService.parse, create)
 router.post('/login', authenticate)
-router.get('/verify', verify)
+router.get('/verify', verify) //verifies email
 router.get('/sign', sign)
 //testing the authorise and emplyoer authorise middlewares
 router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
@@ -35,6 +36,8 @@ async function create(req, res){
     try {
         const newUser = await userService.create(req.body)
         const newCompany = await companyService.create(req.payload)
+        const token = await userService.generateVerification(req.body)
+        const mail = await emailService.sendVerificationCode(token, req.body.email)
         res.status(201)
         res.send(`Successfully created user ${newUser.email} for company ${newCompany.name}`)
     }

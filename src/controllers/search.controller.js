@@ -47,11 +47,17 @@ async function getWeekly(req, res) {
     }
 
     catch(err) {
-        if (err.message == "Cannot read property 'measures' of undefined") {
-            res.send("Ydou are querying legacy data where summary on save was not implemented!")
+        if (err.error){
+            if (err.message == "Cannot read property 'measures' of undefined") {
+                res.send("Ydou are querying legacy data where summary on save was not implemented!")
+            }
+            else {
+                res.status(400)
+                res.send(err.message)
+            }
         }
         else {
-            res.status(400)
+            res.status(200)
             res.send(err.message)
         }
     }
