@@ -19,8 +19,8 @@ var userRouter = require('./controllers/user.controller');
 var questionRouter = require('./controllers/questions.controller');
 var searchRouter = require('./controllers/search.controller')
 
-const swaggerUI = require('swagger-ui-express');
-const swaggerDoc = require('../swagger.json')
+//const swaggerUI = require('swagger-ui-express');
+//const swaggerDoc = require('../swagger.json')
 
 //App
 var app = express();

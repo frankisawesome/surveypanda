@@ -26,6 +26,12 @@ function summaryForArray(qsetArr) {
             numOfValidSet --
         }
     })
+    if (numOfValidSet < 1) {
+        throw {
+            error: false,
+            message: "No results yet!"
+        }
+    }
 
     setOfSummary.map((sum, i) => {
         if (i == 0) {

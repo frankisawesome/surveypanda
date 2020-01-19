@@ -36,10 +36,10 @@ async function create(req, res){
     try {
         const newUser = await userService.create(req.body)
         const newCompany = await companyService.create(req.payload)
-        const token = await userService.generateVerification(req.body)
-        const mail = await emailService.sendVerificationCode(token, req.body.email)
         res.status(201)
         res.send(`Successfully created user ${newUser.email} for company ${newCompany.name}`)
+        const token = await userService.generateVerification(req.body)
+        await emailService.sendVerificationCode(token, req.body.email) 
     }
     catch(err) {
         res.status(400)
