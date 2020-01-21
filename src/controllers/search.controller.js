@@ -3,6 +3,7 @@ var router = Router()
 const questionServices = require('../services/question.services')
 const searchServices = require('../services/search.services')
 const dateServices = require('../services/date.services')
+const testServices = require('../services/test.services')
 
 //API Endpoints
 router.get('/day', getDaily)
@@ -64,7 +65,14 @@ async function getWeekly(req, res) {
 }
 
 async function getTrend(req, res) {
-
+    try {
+        await testServices.generateMockData(req.query.id)
+        getWeekly(req, res)
+    }
+    catch(err) {
+        res.status(400)
+        res.send(err.message)
+    }
 }
 
 module.exports = router

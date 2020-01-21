@@ -23,6 +23,7 @@
     "morgan": "~1.9.1",
     "ms": "^2.1.2",
     "nodemailer": "^6.4.2",
+    "random": "^2.1.1",
     "swagger-ui": "^3.24.3",
     "swagger-ui-express": "^4.1.2"
   },
