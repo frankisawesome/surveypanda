@@ -22,16 +22,11 @@ async function generateMockData(id) {
 
         const days = dateServices.daysThisWeek()
 
-        days.map((day) => {
-            const newSet = questionServices.createIfNotFound(day, id)
-            const results = []
-            for (i = 0; i < 3; i++){
-                results.push(random.int(1,5))
-            }
-            questionServices.updateAnswers(id, day, results)
-        })
-    }
-    catch (err){
+        for (let i = 0; i < days.length; i++){
+            const updated = await createThenUpdate(id, days[i])
+            console.log(updated)
+        }
+    } catch (err) {
         throw {
             error: true,
             message: "Error generating mock data"
@@ -39,3 +34,11 @@ async function generateMockData(id) {
     }
 }
 
+async function createThenUpdate(id, day) {
+    const newset = await questionServices.createIfNotFound(day, id)
+    const results = []
+    for (i = 0; i < 3; i++) {
+        results.push(random.int(1, 5))
+    }
+    return await questionServices.updateAnswers(id, day, results)
+}

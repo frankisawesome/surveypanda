@@ -31,7 +31,7 @@ function findWeek(id, date){
     return query
 }
 
-async function create(id) {
+async function create(id, date) {
     //find the company document by name
     try {
         //get the company profile
@@ -40,7 +40,7 @@ async function create(id) {
         const newSet = new QuestionSet({
             companyId: id,
             questions: [],
-            date: Date.now()
+            date: date
         })
         company.questions.map((question) => {
             const newq = {
@@ -96,7 +96,7 @@ async function createIfNotFound(date, id) {
         //find if questionnare exists
         const result = await find(id, date)
         if (result.length === 0) {
-            return await create(id)
+            return await create(id, date)
         }
         else {
             return result[0]
