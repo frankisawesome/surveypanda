@@ -38,7 +38,7 @@ app.use(cookieParser());
 db_con(mongoose, process.env.DB_CON);
 
 //front end
-app.use(express.static('build'));
+app.use(express.static('build'))
 
 //api routes
 app.use('/surveys', surveysRouter);
