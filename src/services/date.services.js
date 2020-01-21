@@ -1,7 +1,8 @@
 module.exports = {
     startOfWeek,
     intervalDay,
-    intervalWeek
+    intervalWeek,
+    daysThisWeek
 }
 
 //default to start of the current week or start of a week prior to current week
@@ -9,8 +10,6 @@ function startOfWeek (start) {
     let date;
     if (start == undefined) {
         const today = new Date(Date.now())
-        console.log(today.getDay())
-        console.log(today.getDate())
         date = new Date (today.getFullYear(), today.getMonth(), today.getDate() - today.getDay())
     }
     else if (start > 0) {
@@ -50,5 +49,17 @@ function intervalWeek (date) {
         throw err
     }
     return [upper, lower]
+}
+
+//return an array of dates that are in the current week
+function daysThisWeek () {
+    const today = new Date(Date.now())
+    const n = today.getDay()
+    const dateArr = []
+    dateArr.push(today)
+    for (i = 1; i < n + 1; i ++) {
+        dateArr.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() - i))
+    }
+    return dateArr
 }
 

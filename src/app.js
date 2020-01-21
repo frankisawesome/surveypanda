@@ -37,8 +37,7 @@ app.use(cookieParser());
 //db connection
 db_con(mongoose, process.env.DB_CON);
 
-//front end
-app.use(express.static('build'))
+app.use('/', express.static('build'))
 
 //api routes
 app.use('/surveys', surveysRouter);
@@ -46,6 +45,7 @@ app.use('/company', companyRouter);
 app.use('/user', userRouter);
 app.use('/question', questionRouter);
 app.use('/search', searchRouter)
+
 
 //app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 

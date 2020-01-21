@@ -8,7 +8,8 @@ module.exports = {
     create,
     find,
     updateAnswers,
-    findWeek
+    findWeek,
+    createIfNotFound
 }
 
 //find a questionnare for a particular company on a given day
@@ -86,5 +87,25 @@ async function updateAnswers(id, date, answers) {
     }
     catch (err) {
         throw err;
+    }
+}
+
+//create questionnaire if not found for a particular company on a particular day
+async function createIfNotFound(date, id) {
+    try {
+        //find if questionnare exists
+        const result = await find(id, date)
+        if (result.length === 0) {
+            return await create(id)
+        }
+        else {
+            return result[0]
+        }
+    }
+    catch(err) {
+        throw {
+            error: true,
+            message: err.message
+        }
     }
 }

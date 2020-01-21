@@ -13,16 +13,9 @@ async function today(req, res) {
         const id = req.query.id
         const date = new Date(Date.now())
         //find if questionnare exists
-        const result = await questionServices.find(id, date)
-        if (result.length === 0) {
-            const newdoc = await questionServices.create(id)
-            res.status(201)
-            res.send(newdoc)
-        }
-        else {
-            res.status(200)
-            res.send(result[0])
-        }
+        const result = await questionServices.createIfNotFound(date, id)
+        res.status(200)
+        res.send(result)
     }
     catch(err) {
         if (err.message == "Cannot read property 'questions' of undefined") {
