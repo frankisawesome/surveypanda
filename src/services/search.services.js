@@ -1,8 +1,11 @@
 const arrayEqual = require('array-equal')
+const dateServices = require('./date.services')
+const questionServices = require('./question.services')
 
 module.exports = {
     summaryForArray,
-    trimAverages
+    trimAverages,
+    returnTrend
 }
 
 function summaryForArray(qsetArr) {
@@ -68,5 +71,11 @@ function trimAverages(summary) {
     summary.averages = summary.averages.map(average => average.toFixed(2))
 
     return summary
+}
+
+async function returnTrend(id) {
+    const days = dateServices.daysThisWeek()
+    const qsetArr = questionServices.findWeek(id, Date.now())
+    const dayString = day.toLocaleString('en-us', {  weekday: 'short' })
 }
 

@@ -35,7 +35,7 @@ async function generateMockData(id) {
 }
 
 async function createThenUpdate(id, day) {
-    const newset = await questionServices.createIfNotFound(day, id)
+    await questionServices.createIfNotFound(day, id)
     const results = []
     for (i = 0; i < 3; i++) {
         results.push(random.int(1, 5))
