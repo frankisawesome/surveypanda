@@ -6,3 +6,5 @@
 /build
 package-lock.json
 app.yaml
+gcpkey.json
+
