@@ -42,8 +42,8 @@ function intervalDay (date) {
 function intervalWeek (date) {
     let upper, lower
     try {
-        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7)
-        lower = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+        upper = date
+        lower = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay())
     }
     catch (err) {
         throw err
@@ -60,6 +60,7 @@ function daysThisWeek () {
     for (i = 1; i < n + 1; i ++) {
         dateArr.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() - i))
     }
+    dateArr.reverse()
     return dateArr
 }
 

@@ -73,9 +73,24 @@ function trimAverages(summary) {
     return summary
 }
 
-async function returnTrend(id) {
+
+//This function ***requires*** the questionSet to have 3 measures
+async function returnTrend(qsetArr) {
     const days = dateServices.daysThisWeek()
-    const qsetArr = questionServices.findWeek(id, Date.now())
-    const dayString = day.toLocaleString('en-us', {  weekday: 'short' })
+    try {
+        const data = days.map((day, index) => {
+            const dayString = day.toLocaleString('en-us', {  weekday: 'short' })
+            return {
+                day: dayString,
+                [qsetArr[index].summary.measures[0]]: qsetArr[index].summary.averages[0],
+                [qsetArr[index].summary.measures[1]]: qsetArr[index].summary.averages[1],
+                [qsetArr[index].summary.measures[2]]: qsetArr[index].summary.averages[2],
+            }
+        })
+        return data
+    }
+    catch(err){
+        throw err
+    }
 }
 
