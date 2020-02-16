@@ -66,7 +66,6 @@ async function getWeekly(req, res) {
 
 async function getTrend(req, res) {
     try {
-        await testServices.generateMockData(req.query.id)
         let date = new Date(Date.now())
         const qsetArr = await questionServices.findWeek(req.query.id, date)
         const data = await searchServices.returnTrend(qsetArr)

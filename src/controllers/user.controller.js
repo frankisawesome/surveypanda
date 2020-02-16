@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/user.services');
 const companyService = require('../services/company.services');
-const emailService = require('../services/email.services')
+const emailService = require('../services/email.services');
+const testServices = require('../services/test.services')
 
 //API endpoints
 router.get('/', greet)
@@ -12,6 +13,8 @@ router.get('/verify', verify) //verifies email
 router.get('/sign', sign)
 //testing the authorise and emplyoer authorise middlewares
 router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
+//create a test account with randomised mock data
+router.post('/test', test)
 
 //controller functions
 function greet(req, res){
@@ -43,13 +46,24 @@ async function create(req, res){
         await emailService.sendVerificationCode(token, reqbody.email) 
     }
     catch(err) {
-        if (reqbody) {
+        res.status(400)
+        res.send(err.message)
+    }
+}
 
-        }
-        else {
-            res.status(400)
-            res.send(err.message)
-        }
+//create new test user
+async function test(req, res) {
+    try {
+        await testServices.generateMockData(req.body)
+        const reqbody = req.body
+        res.status(201)
+        res.send(`Successfully created user`)
+        const token = await userService.generateVerification(reqbody)
+        await emailService.sendVerificationCode(token, reqbody.email)
+    }
+    catch(err) {
+        res.status(400)
+        res.send(err.message)
     }
 }
 

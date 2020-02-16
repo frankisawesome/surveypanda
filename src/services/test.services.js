@@ -1,29 +1,31 @@
 const questionServices = require('./question.services')
 const dateServices = require('./date.services')
+const userServices = require('./user.services')
 const random = require('random')
 const Company = require('../models/company')
+const User = require('../models/user')
 
 module.exports = {
     generateMockData
 }
 
 //creates questionnaires for the past week, and generate random results for each day, given a company Id
-async function generateMockData(id) {
+async function generateMockData(body) {
     try {
         const newComp = new Company({
-            name: id,
-            nameid: id,
+            name: body.name,
+            nameid: body.name.replace(/\s+/g, '').toLowerCase(),
             industry: "test",
             dateCreated: Date.now(),
             lastUpdated: Date.now()
         })
-
+        await userServices.create(body)
         await newComp.save()
 
         const days = dateServices.daysThisWeek()
 
         for (let i = 0; i < days.length; i++){
-            const updated = await createThenUpdate(id, days[i])
+            const updated = await createThenUpdate(body.name.replace(/\s+/g, '').toLowerCase(), days[i])
             console.log(updated)
         }
     } catch (err) {
