@@ -62,10 +62,8 @@ async function updateAnswers(id, date, answers) {
     try {
         let qArr = await find(id, date)
         if (qArr.length === 0) {
-            throw {
-                error: true,
-                message: 'The questionnaire does not exist yet!'
-            }
+            await createIfNotFound(date, id)
+            qArr = await find(id, date)
         }
         
         const qset = qArr[0]

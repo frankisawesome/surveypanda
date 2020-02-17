@@ -46,9 +46,7 @@ app.use('/user', userRouter);
 app.use('/question', questionRouter);
 app.use('/search', searchRouter)
 
-
 //app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
-
 
 //catch 404 and forward to error handler
 app.use(function (req, res, next) {

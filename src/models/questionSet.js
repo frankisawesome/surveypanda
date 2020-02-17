@@ -14,6 +14,9 @@ const questionSetSchema = mongoose.Schema({
     questions: {
         type: [questionSchema]
     },
+    feedback: {
+        type: [String]
+    },
     summary: {
         type: {
             measures: [String],
