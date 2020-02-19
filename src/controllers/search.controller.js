@@ -68,6 +68,12 @@ async function getTrend(req, res) {
     try {
         let date = new Date(Date.now())
         const qsetArr = await questionServices.findWeek(req.query.id, date)
+        if (qsetArr.length === 0){
+            throw {
+                error: true,
+                message: "Can't find questionsets, check your id"
+            }
+        }
         const data = await searchServices.returnTrend(qsetArr)
         res.send(data)
     }

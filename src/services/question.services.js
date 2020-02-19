@@ -1,6 +1,5 @@
 const QuestionSet = require('../models/questionSet')
 const companyServices = require('./company.services')
-const searchServices = require('./search.services')
 const dateServices = require('./date.services')
 
 
@@ -25,7 +24,6 @@ function find(id, date) {
 //start date
 function findWeek(id, date){
     const [upper, lower] = dateServices.intervalWeek(date)
-    
     const query = QuestionSet.find( { companyId: id, date: { $lte: upper, $gte: lower}})
 
     return query

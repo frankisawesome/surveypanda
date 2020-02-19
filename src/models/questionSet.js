@@ -21,6 +21,10 @@ const questionSetSchema = mongoose.Schema({
         type: {
             measures: [String],
             averages: [Number]
+        },
+        default: {
+            measures: ["Shift Sentiment", "Workload Perception", "Support Factor"],
+            averages: [0, 0, 0]
         }
     }
 })

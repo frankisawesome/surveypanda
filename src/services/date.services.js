@@ -42,7 +42,7 @@ function intervalDay (date) {
 function intervalWeek (date) {
     let upper, lower
     try {
-        upper = date
+        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)
         lower = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7)
     }
     catch (err) {
@@ -54,10 +54,11 @@ function intervalWeek (date) {
 //return an array of dates that are in the current week
 function daysThisWeek () {
     const today = new Date(Date.now())
+    const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1)
     const dateArr = []
-    dateArr.push(today)
+    dateArr.push(yesterday)
     for (i = 1; i < 7; i ++) {
-        dateArr.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() - i))
+        dateArr.push(new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate() - i))
     }
     dateArr.reverse()
     return dateArr
