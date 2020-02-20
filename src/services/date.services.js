@@ -42,7 +42,7 @@ function intervalDay (date) {
 function intervalWeek (date) {
     let upper, lower
     try {
-        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)
+        upper = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1, 23)
         lower = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7)
     }
     catch (err) {

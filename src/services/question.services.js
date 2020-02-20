@@ -23,6 +23,10 @@ function find(id, date) {
 
 //start date
 function findWeek(id, date){
+    for (i=1; i < 8; i++){
+        const day = new Date(date.getFullYear(), date.getMonth(), date.getDate() - i)
+        createIfNotFound(day, id)
+    }
     const [upper, lower] = dateServices.intervalWeek(date)
     const query = QuestionSet.find( { companyId: id, date: { $lte: upper, $gte: lower}})
 
