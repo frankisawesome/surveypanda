@@ -9,7 +9,8 @@ module.exports = {
     authenticate,
     verify,
     generateVerification,
-    employerAuthorise
+    employerAuthorise,
+    checkEmail
 }
 
 //business logic for creating new user in the database, hashing the password
@@ -134,6 +135,21 @@ async function verify(token) {
         return user.save()
     }
     
+}
+
+async function checkEmail(email) {
+    const user = await User.findOne({
+        email: email
+    })
+    if (!user) {
+        return false
+    }
+    else {
+        throw {
+            error: true,
+            message: "Email already in use!"
+        }
+    }
 }
 
 //middleware function for authenticating employer accounts

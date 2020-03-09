@@ -10,6 +10,8 @@ router.get('/', greet)
 router.post('/new', companyService.parse, create)
 router.post('/login', authenticate)
 router.get('/verify', verify) //verifies email
+//checks the email is available
+router.get('/checkemail', checkemail)
 router.get('/sign', sign)
 //testing the authorise and emplyoer authorise middlewares
 router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
@@ -19,6 +21,18 @@ router.post('/test', test)
 //controller functions
 function greet(req, res){
     res.send('User API')
+}
+
+async function checkemail(req, res) {
+    try {
+        const hasEmail = await userService.checkEmail(req.query.email)
+        res.status(200)
+        res.send("Email okay")
+    }
+    catch(err) {
+        res.status(400)
+        res.send(err.message)
+    }
 }
 
 async function sign(req, res) {
