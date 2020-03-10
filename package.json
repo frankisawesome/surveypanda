@@ -2,9 +2,15 @@
   "name": "surveypanda",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
     "start": "npm i && node ./bin/www",
-    "test": "nodemon ./bin/www",
+    "test": "jest",
     "debug": "nodemon --inspect ./bin/www"
   },
   "dependencies": {
@@ -18,12 +24,14 @@
     "express": "~4.16.1",
     "helmet": "^3.21.2",
     "http-errors": "~1.6.3",
+    "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.12",
     "morgan": "~1.9.1",
     "ms": "^2.1.2",
     "nodemailer": "^6.4.2",
     "random": "^2.1.1",
+    "supertest": "^4.0.2",
     "swagger-ui": "^3.24.3",
     "swagger-ui-express": "^4.1.2"
   },

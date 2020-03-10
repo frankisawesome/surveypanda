@@ -25,7 +25,7 @@ function greet(req, res){
 
 async function checkemail(req, res) {
     try {
-        const hasEmail = await userService.checkEmail(req.query.email)
+        await userService.checkEmail(req.query.email)
         res.status(200)
         res.send("Email okay")
     }
