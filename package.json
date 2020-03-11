@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "start": "npm i && node ./bin/www",
+    "start": "node ./bin/www",
     "test": "jest",
     "debug": "nodemon --inspect ./bin/www"
   },

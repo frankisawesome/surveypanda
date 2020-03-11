@@ -1,6 +1,7 @@
 const request = require('supertest')
 const app = require('../app')
 
+//clear all user records
 beforeAll(async () => {
     const res = await request(app)
     .get('/user/clear')

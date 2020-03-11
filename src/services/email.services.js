@@ -22,13 +22,13 @@ async function sendVerificationCode(code, email) {
     try {
         await transporter.verify()
         await transporter.sendMail({
-            from: `"The Survey Panda Team" <${sender}>`,
+            from: `"Survey Panda" <${sender}>`,
             to: email,
-            subject: "Verify you email address for Survey Panda",
-            html: `
-            <h1>Welcome Aboard!<h1>
-            <p>Thank you so much for joining the testing community for surveypanda, please contact Frank for bug reports</p>
-            <p>Verify your account by clicking on the following link https://surveypandaa.appspot.com/user/verify?token=${code}</p>`
+            subject: "Verify you email address",
+            text: `
+            Welcome aboard tester!
+            Thank you so much for joining the testing community for surveypanda.
+            Verify your account by clicking on the following link https://surveypandaa.appspot.com/user/verify?token=${code}`
         })
     }
     catch (err) {
