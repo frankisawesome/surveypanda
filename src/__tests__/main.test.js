@@ -1,6 +1,11 @@
 const request = require('supertest')
 const app = require('../app')
 
+beforeAll(async () => {
+    const res = await request(app)
+    .get('/user/clear')
+  });
+
 
 describe('Sanity Check', () => {
     it('should always be true', () => {
@@ -33,5 +38,19 @@ describe('User Check', () => {
         .get('/user/checkemail?email=testuser@test.com')
 
         expect(res.statusCode).toEqual(400)
+    })
+
+    it('should reject test verify of non existant email and return 400', async () => {
+        const res = await request(app)
+        .get('/user/testverify?email=non@existant.com')
+
+        expect(res.statusCode).toEqual(400)
+    })
+
+    it('should accept test verify of existant email and return 200', async () => {
+        const res = await request(app)
+        .get('/user/testverify?email=testuser@test.com')
+
+        expect(res.statusCode).toEqual(200)
     })
   })

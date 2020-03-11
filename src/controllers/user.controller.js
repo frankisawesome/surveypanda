@@ -10,6 +10,7 @@ router.get('/', greet)
 router.post('/new', companyService.parse, create)
 router.post('/login', authenticate)
 router.get('/verify', verify) //verifies email
+router.get('/testverify', testverify) //verifies email without using jwt, testing only
 //checks the email is available
 router.get('/checkemail', checkemail)
 router.get('/sign', sign)
@@ -17,10 +18,22 @@ router.get('/sign', sign)
 router.get('/authorisethis', userService.authorise, userService.employerAuthorise, (req, res) => res.send('Your through!'))
 //create a test account with randomised mock data
 router.post('/test', test)
+router.get('/clear', clear)
 
 //controller functions
 function greet(req, res){
     res.send('User API')
+}
+
+async function clear(req, res) {
+    try {
+        await testServices.clearCollections()
+        res.status(200)
+        res.send('Sucess')
+    }catch(err) {
+        res.stats(400)
+        res.send(err.message)
+    }
 }
 
 async function checkemail(req, res) {
@@ -101,8 +114,30 @@ async function verify(req, res) {
             res.status(200)
             res.send('Email verified!')
         }
+        else {
+            res.status(500)
+            res.send('Server side error')
+        }
     }
     catch (err) {
+        res.status(400)
+        res.send(err.message)
+    }
+}
+
+async function testverify(req, res) {
+    try {
+        const user = await userService.testverify(req.query.email)
+        if (user.verified) {
+            res.status(200)
+            res.send('Email verified')
+        }
+        else {
+            res.status(500)
+            res.send('Server side error')
+        }
+    }
+    catch(err) {
         res.status(400)
         res.send(err.message)
     }

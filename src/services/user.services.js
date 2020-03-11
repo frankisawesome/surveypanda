@@ -8,6 +8,7 @@ module.exports = {
     authorise,
     authenticate,
     verify,
+    testverify,
     generateVerification,
     employerAuthorise,
     checkEmail
@@ -135,6 +136,26 @@ async function verify(token) {
         return user.save()
     }
     
+}
+
+//verify for a email without checking jwt
+async function testverify(email) {
+    const user = await User.findOne({ email: email })
+
+    if (!user) {
+        throw {
+            error: true,
+            message: "User email not found"
+        }
+    } else if (user.verified) {
+        throw {
+            error: true,
+            message: "Email already verified!"
+        }
+    } else {
+        user.verified = true
+        return user.save()
+    }
 }
 
 async function checkEmail(email) {

@@ -4,9 +4,11 @@ const userServices = require('./user.services')
 const random = require('random')
 const Company = require('../models/company')
 const User = require('../models/user')
+const Qset = require('../models/questionSet')
 
 module.exports = {
-    generateMockData
+    generateMockData,
+    clearCollections
 }
 
 //creates questionnaires for the past week, and generate random results for each day, given a company Id
@@ -26,7 +28,6 @@ async function generateMockData(body) {
 
         for (let i = 0; i < days.length; i++){
             const updated = await createThenUpdate(body.name.replace(/\s+/g, '').toLowerCase(), days[i])
-            console.log(updated)
         }
     } catch (err) {
         throw {
@@ -43,4 +44,10 @@ async function createThenUpdate(id, day) {
         results.push(random.int(1, 5))
     }
     return await questionServices.updateAnswers(id, day, results)
+}
+
+async function clearCollections () {
+    await Company.deleteMany()
+    await User.deleteMany()
+    await Qset.deleteMany()
 }
