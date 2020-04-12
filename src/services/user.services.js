@@ -16,14 +16,9 @@ module.exports = {
 
 //business logic for creating new user in the database, hashing the password
 async function create(userparams) {
-    if (userparams.code !== process.env.INVITATION_CODE) {
-        throw {
-            error: true,
-            message: "Incorrect invitation code!"
-        }
-    } else if (await User.findOne({
-            email: userparams.email
-        })) {
+    if (await User.findOne({
+        email: userparams.email
+    })) {
         throw {
             error: true,
             message: `User ${userparams.email} already exists`
@@ -37,10 +32,10 @@ async function create(userparams) {
     return user.save()
 }
 
-async function generateVerification(params){
-    const user = await User.findOne( {email: params.email})
+async function generateVerification(params) {
+    const user = await User.findOne({ email: params.email })
     if (user && !user.verified) {
-        const token = jwt.sign({email: user.email, companyId: user.companyId}, process.env.PRIVATE_KEY)
+        const token = jwt.sign({ email: user.email, companyId: user.companyId }, process.env.PRIVATE_KEY)
         return token
     }
     else {
@@ -135,7 +130,7 @@ async function verify(token) {
         user.verified = true
         return user.save()
     }
-    
+
 }
 
 //verify for a email without checking jwt
