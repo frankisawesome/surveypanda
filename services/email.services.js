@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer')
-const key = require('../../gcpkey.json')
+const key = require('../gcpkey.json')
 const sender = 'frank@surveypanda.page'
 
 module.exports = {
@@ -28,7 +28,7 @@ async function sendVerificationCode(code, email) {
             text: `
             Welcome aboard tester!
             Thank you so much for joining the testing community for surveypanda.
-            Verify your account by clicking on the following link https://surveypandaa.appspot.com/user/verify?token=${code}`
+            Verify your account by clicking on the following link https://surveypandaa.appspot.com/api/user/verify?token=${code}`
         })
     }
     catch (err) {

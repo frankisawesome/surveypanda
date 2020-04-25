@@ -21,7 +21,7 @@ router.post('/test', test)
 router.get('/clear', clear)
 
 //controller functions
-function greet(req, res){
+function greet(req, res) {
     res.send('User API')
 }
 
@@ -30,7 +30,7 @@ async function clear(req, res) {
         await testServices.clearCollections()
         res.status(200)
         res.send('Sucess')
-    }catch(err) {
+    } catch (err) {
         res.stats(400)
         res.send(err.message)
     }
@@ -42,7 +42,7 @@ async function checkemail(req, res) {
         res.status(200)
         res.send("Email okay")
     }
-    catch(err) {
+    catch (err) {
         res.status(400)
         res.send(err.message)
     }
@@ -54,15 +54,15 @@ async function sign(req, res) {
         res.status(200)
         res.send(token)
     }
-    catch(err){
+    catch (err) {
         res.status(400)
         res.send(err.message)
     }
-    
+
 }
 
 //create new user
-async function create(req, res){
+async function create(req, res) {
     try {
         const newUser = await userService.create(req.body)
         const newCompany = await companyService.create(req.payload)
@@ -70,9 +70,9 @@ async function create(req, res){
         res.status(201)
         res.send(`Successfully created user ${newUser.email} for company ${newCompany.name}`)
         const token = await userService.generateVerification(reqbody)
-        await emailService.sendVerificationCode(token, reqbody.email) 
+        await emailService.sendVerificationCode(token, reqbody.email)
     }
-    catch(err) {
+    catch (err) {
         res.status(400)
         res.send(err.message)
     }
@@ -88,31 +88,31 @@ async function test(req, res) {
         const token = await userService.generateVerification(reqbody)
         await emailService.sendVerificationCode(token, reqbody.email)
     }
-    catch(err) {
+    catch (err) {
         res.status(400)
         res.send(err.message)
     }
 }
 
 //authenticate a login request with a JWT
-function authenticate(req, res){
+function authenticate(req, res) {
     userService.authenticate(req.body)
-    .then((response) => {
-        res.status(200)
-        res.send(response)
-    })
-    .catch((err) => {
-        res.status(401)
-        res.send(err)
-    })
+        .then((response) => {
+            res.status(200)
+            res.send(response)
+        })
+        .catch((err) => {
+            res.status(401)
+            res.send(err)
+        })
 }
 
 async function verify(req, res) {
     try {
         const user = await userService.verify(req.query.token)
-        if (user.verified){
+        if (user.verified) {
             res.status(200)
-            res.send('Email verified!')
+            res.redirect('http://angry-roentgen-975980.netlify.com/verified')
         }
         else {
             res.status(500)
@@ -137,7 +137,7 @@ async function testverify(req, res) {
             res.send('Server side error')
         }
     }
-    catch(err) {
+    catch (err) {
         res.status(400)
         res.send(err.message)
     }

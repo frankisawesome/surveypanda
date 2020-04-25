@@ -37,14 +37,14 @@ app.use(cookieParser());
 //db connection
 db_con(mongoose, process.env.DB_CON);
 
-app.use('/', express.static('build'))
-
 //api routes
-app.use('/surveys', surveysRouter);
-app.use('/company', companyRouter);
-app.use('/user', userRouter);
-app.use('/question', questionRouter);
-app.use('/search', searchRouter)
+app.use('/api/surveys', surveysRouter);
+app.use('/api/company', companyRouter);
+app.use('/api/user', userRouter);
+app.use('/api/question', questionRouter);
+app.use('/api/search', searchRouter)
+
+app.use(express.static(path.join(__dirname, '/build')));
 
 //app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
