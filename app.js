@@ -44,8 +44,6 @@ app.use('/api/user', userRouter);
 app.use('/api/question', questionRouter);
 app.use('/api/search', searchRouter)
 
-app.use(express.static(path.join(__dirname, '/build')));
-
 //app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 //catch 404 and forward to error handler

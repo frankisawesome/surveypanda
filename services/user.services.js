@@ -63,7 +63,8 @@ async function authenticate(userparams) {
             const res = {
                 token: jwt.sign({
                     email: user.email,
-                    companyId: user.companyId
+                    companyId: user.companyId,
+                    exp: Date.now() + 36000
                 }, process.env.PRIVATE_KEY),
                 companyId: user.companyId
             }
