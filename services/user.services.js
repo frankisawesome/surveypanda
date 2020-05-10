@@ -35,7 +35,7 @@ async function create(userparams) {
 async function generateVerification(params) {
     const user = await User.findOne({ email: params.email })
     if (user && !user.verified) {
-        const token = jwt.sign({ email: user.email, companyId: user.companyId }, process.env.PRIVATE_KEY)
+        const token = jwt.sign({ email: user.email, companyId: user.companyId, exp: Date.now() + 36000 }, process.env.PRIVATE_KEY)
         return token
     }
     else {
